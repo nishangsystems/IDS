@@ -21,12 +21,7 @@
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script> -->
 
-		@php
-			$bg1 = \App\Http\Controllers\HomeController::getColor('background_color_1');
-			$bg2 = \App\Http\Controllers\HomeController::getColor('background_color_2');
-			$bg3 = \App\Http\Controllers\HomeController::getColor('background_color_3');
-			$bg_path = \App\Helpers\Helpers::instance()->getBackground();
-		@endphp
+
 
 		<style>
 			body{
@@ -35,8 +30,6 @@
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-attachment: fixed;
-
-
 			}
 
 				/* Rectangle 23 */
@@ -84,9 +77,6 @@
 			#login-frame .main-rect div{
 				background-color: white;
 			}
-
-
-
 
 		    a{
 		        text-decoration:none;

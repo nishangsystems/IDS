@@ -22,14 +22,11 @@ class CreateStudentsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('dob')->nullable();
             $table->integer('admission_batch_id')->nullable();
-            $table->unsignedBigInteger('campus_id')->nullable();
+            $table->unsignedBigInteger('school_id')->nullable();
             $table->enum('gender', ['female','male']);
             $table->string('pob')->nullable();
-            $table->string('address')->nullable();
-            $table->unsignedBigInteger('program_id')->nullable();
+            $table->unsignedBigInteger('program')->nullable();
             $table->timestamps();
-
-            $table->foreign('campus_id')->references('id')->on('campuses');
         });
     }
 
