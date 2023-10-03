@@ -17,21 +17,16 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array
-
      */
-    protected $connection = 'mysql2';
+
     protected $fillable = [
         'name',
         'email',
+        'username',
+        'gender',
         'phone',
         'address',
-        'gender',
-        'username',
-        'type',
         'password',
-        'campus_id',
-        'school_id',
-        'matric'
     ];
 
     /**
@@ -52,36 +47,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected function campus(){
-        return $this->belongsTo(Campus::class);
-    }
-
-    public function subject()
-    {
-        return $this->hasMany(TeachersSubject::class, 'teacher_id');
-    }
-
-    public function subjectR($year)
-    {
-        return $this->hasMany(TeachersSubject::class, 'teacher_id')
-            ->where('batch_id', $year)->get();
-    }
-
-    public function classR($year)
-    {
-        return $this->belongsToMany(SchoolUnits::class, 'teachers_subjects', 'teacher_id', 'class_id')->where('batch_id', $year)->distinct('school_units.id')->get();
-    }
-
-    public function classes()
-    {
-        return $this->belongsToMany(SchoolUnits::class, 'class_masters', 'user_id', 'department_id');
-    }
-
-    public function roleR()
-    {
-        return $this->hasMany(UserRole::class);
-    }
-
 
 }

@@ -10,7 +10,7 @@ class Photo extends Model
     use HasFactory;
 
     protected $connection = 'mysql2';
-    protected $fillable = ['student_id', 'path'];
+    protected $fillable = ['student_id', 'file_name'];
 
     protected $table = 'files';
 }

@@ -113,7 +113,9 @@ class CustomLoginController extends Controller
         //Attempt to log the user in
 
         // return $request->all();
-        if( (Auth::guard('student')->attempt(['email'=>$request->username,'password'=>$request->password], $request->remember)) || (Auth::guard('student')->attempt(['phone'=>$request->username,'password'=>$request->password], $request->remember))){
+
+        // Update login: student can login with matric and phone/password, admin login with email and password
+        if( (Auth::guard('student')->attempt(['matric'=>$request->username,'phone'=>$request->password], $request->remember)) || (Auth::guard('student')->attempt(['matric'=>$request->username,'password'=>$request->password], $request->remember))){
             // return "Spot 1";
             return redirect()->intended(route('student.home'));
         }else{
