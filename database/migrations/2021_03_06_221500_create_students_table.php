@@ -18,15 +18,13 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('matric')->unique()->nullable();
-            $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->enum('gender', ['female','male']);
             $table->string('dob')->nullable();
             $table->string('pob')->nullable();
             $table->string('campus')->nullable();
-            $table->string('campus_id')->nullable();
+            $table->string('img_url')->nullable();
             $table->string('password')->nullable();
-            $table->integer('admission_batch_id')->nullable();
             $table->unsignedBigInteger('school_id')->nullable();
             $table->unsignedBigInteger('program')->nullable();
             $table->timestamps();

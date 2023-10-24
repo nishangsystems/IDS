@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
@@ -38,9 +38,21 @@ Route::get('reset_password_with_token/{token}/{email}', [CustomForgotPasswordCon
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function () {
     Route::get('', 'Admin\HomeController@index')->name('home');
     Route::get('home', 'Admin\HomeController@index')->name('home');
+    Route::get('download', 'Admin\HomeController@download_index')->name('download');
     Route::get('setayear', 'Admin\HomeController@setayear')->name('setayear');
     Route::post('setayear/{id}', 'Admin\HomeController@setAcademicYear')->name('createacademicyear');
-    Route::get('units/{parent_id}/student', 'Admin\ProgramController@students')->name('students.index');
+    Route::get('schools', [HomeController::class, 'schools'])->name('schools');
+    Route::get('schools/create', [HomeController::class, 'create_school'])->name('schools.create');
+    Route::post('schools/create', [HomeController::class, 'save_school']);
+    Route::get('schools/{school_id}/update', [HomeController::class, 'edit_school'])->name('schools.edit');
+    Route::post('schools/{school_id}/update', [HomeController::class, 'update_school']);
+    Route::get('schools/{school_id}/students', [HomeController::class, 'students'])->name('schools.students');
+    Route::get('schools/{school_id}/students/import', [HomeController::class, 'import_students'])->name('schools.students.import');
+    Route::post('schools/{school_id}/students/import', [HomeController::class, 'save_students']);
+    Route::get('schools/{school_id}/students/download', [HomeController::class, 'download_students'])->name('schools.download_students');
+    Route::post('schools/{school_id}/students/download', [HomeController::class, 'download_students_save']);
+    Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
+    Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 });
 
 
@@ -48,6 +60,8 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->group(funct
     Route::get('', 'Student\HomeController@index')->name('home');
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
+    Route::post('update', 'Student\HomeController@update')->name('update');
+    Route::post('add_image', 'Student\HomeController@update_image')->name('add_image');
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 });
@@ -63,5 +77,3 @@ Route::get('mode/{locale}', function ($batch) {
 
     return redirect()->back();
 })->name('mode');
-
-

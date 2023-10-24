@@ -30,23 +30,7 @@ class CustomLoginController extends Controller
         # code...
         return view('auth.registration');
     }
-
-    public function check_matricule(Request $request){
-       if (Students::where('matric', $request->reg_no)->exists()) { 
-              if (User::where('username', $request->reg_no)->exists()) {   
-                 return redirect()->route('registration')->with('error','Matricule Number has being used already. Contact the System Administrator.');   
-              }else{
-                $student_d = Students::where('matric', $request->reg_no)->first();   
-                return view('auth.registration_info',compact('student_d'));
-              }
-            
-          }
-          else{
-            return redirect()->route('registration')->with('error','Invalid Registration Number.');   
-          }
-    }
-    
-    
+ 
     public function createAccount(Request $request){
         if (Students::where('matric', $request->username)->exists()) {  
             $update['phone'] = $request->phone;
@@ -103,23 +87,19 @@ class CustomLoginController extends Controller
     }
 
     public function login(Request $request){
+        session()->flush();
          //return $request->all();
         //validate the form data
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required|min:2'
         ]);
-        //return $request->all();
-        //Attempt to log the user in
-
-        // return $request->all();
-
         // Update login: student can login with matric and phone/password, admin login with email and password
-        if( (Auth::guard('student')->attempt(['matric'=>$request->username,'phone'=>$request->password], $request->remember)) || (Auth::guard('student')->attempt(['matric'=>$request->username,'password'=>$request->password], $request->remember))){
+        if( (Auth::guard('student')->attempt(['matric'=>$request->username,'password'=>$request->password], $request->remember))){
             // return "Spot 1";
             return redirect()->intended(route('student.home'));
         }else{
-            if( Auth::attempt(['username'=>$request->username,'password'=>$request->password]) ||  Auth::attempt(['matric'=>$request->username,'password'=>$request->password])){
+            if( Auth::attempt(['username'=>$request->username,'password'=>$request->password])){
                 return redirect()->route('admin.home')->with('success','Welcome to Admin Dashboard '.Auth::user()->name);
             }
         }
@@ -131,6 +111,7 @@ class CustomLoginController extends Controller
     public function logout(Request $request){
         Auth::logout();
         Auth::guard('student')->logout();
+        session()->flush();
         return redirect(route('login'));
     }
 

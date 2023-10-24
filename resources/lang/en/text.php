@@ -934,7 +934,7 @@ return [
     'general_reports'=>'general reports',
     'word_reports'=>'reports',
     'word_certificate'=>'certificate',
-    'stlo_portal'=>'st. louis online application portal',
+    'stlo_portal'=>'ID-CARD SYSTEM',
     'word_admit'=>'admit',
     'program_first_choice'=>"program: 1st choice",
     'program_second_choice'=>"program: 2nd choice",
@@ -984,5 +984,6 @@ return [
 
     
     'by_campus'=>'by campus',
+    'word_schools'=>'schools',
     ''
 ];

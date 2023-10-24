@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Students extends Authenticatable
 {
@@ -16,17 +18,16 @@ class Students extends Authenticatable
         'name',
         'email',
         'matric',
-        'phone',
-        'address',
+        'nationality',
+        'level',
         'gender',
         'dob',
         'pob',
         'campus',
-        'campus_id',
-        'admission_batch_id',
         'password',
         'school_id',
         'program',
+        'img_url'
     ];
 
     public function school()

@@ -21,8 +21,6 @@
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script> -->
 
-
-
 		<style>
 			body{
 				background-image: url("{{asset('assets/images/background1.png')}}");
@@ -36,7 +34,7 @@
 			#login-frame{
 				position: relative;
 				width: 350px;
-				height: 450px;
+				height: 400px;
 				min-height: fit-content;
 				margin-inline: auto;
 				border-radius: 24px;
@@ -89,8 +87,8 @@
 
 	<body class="login-layout" id="frame">
 		<div class="main-container px-5" style="padding-inline: 2rem;">
-			<div class="py-5 mx-5 w-100" style="padding: 2rem;">
-				<h4> <span style="color:#DBA622; text-transform: uppercase">{{__('text.stlo_portal')}}</span></h4>
+			<div class="py-5 mx-5 w-100" style="padding: 4rem 2rem;">
+				<h4> <span style="color:#DBA622; text-transform: uppercase; font-size: 800;">{{__('text.stlo_portal')}}</span></h4>
 			</div>
 			<div style="max-height: 65vh; overflow:auto">
 				@if(Session::has('success'))
@@ -122,10 +120,9 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<h4 class="bigger text-capitalize" style="color: black; font-size: xlarge;">
+											<h4 class="bigger text-capitalize text-center my-5" style="color: black; font-size: 3rem;">
 											 	<b>{{__('text.log_in')}}</b>
 											</h4>
-											<span style="font-size: small; margin-bottom: 1rem;">{{__('auth.auth_request')}}</span>
 
 											@if(Session::has('error'))
 												<div class="alert alert-danger"><em> {!! session('error') !!}</em>
@@ -146,7 +143,7 @@
 
 											<form method="post" action="{{route('login.submit')}}">
 											@csrf
-												<fieldset style="color: black;">
+												<fieldset style="color: black; margin-block: 2rem;">
 													<label class="block clearfix">
 														<span class="text-capitalize">{{__('text.word_email')}} / {{ __('text.phone_number') }}</span>
 														<span class="block input-icon input-icon-right" style="background-color: white !important;">
@@ -192,115 +189,23 @@
 												</a>
 											</div> --}}
 											
-												<a  href="#" data-target="#forgot-box" class="text-center form-control btn-black btn-sm" style="border-radius: 2rem; background-color: black; border: 1px solid black; color: white; font-weight: normal !important;">
+												{{-- <a  href="#" data-target="#forgot-box" class="text-center form-control btn-black btn-sm" style="border-radius: 2rem; background-color: black; border: 1px solid black; color: white; font-weight: normal !important;">
 													<span class="bigger-110">{{__('text._forgot_password')}}</span>
-												</a>
+												</a> --}}
 											<div>
 											</div>
 
 										</div>
-										<div class="toolbar clearfix"  style="border: 0px; font-size: xsmall !important; width: 77% !important; margin-inline: auto; ">
+										{{-- <div class="toolbar clearfix"  style="border: 0px; font-size: xsmall !important; width: 77% !important; margin-inline: auto; ">
 											<span style="text-decoration: none !important; color: black !important;">{{__('text.need_an_account?')}}</span>
 											<a href="{{ route('registration') }}" style="color: #670404 !important;">
 												{{__('text.want_to_register')}}
-												{{-- <i class="ace-icon fa fa-arrow-right"></i> --}}
+												<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
 											</a>
-										</div>
+										</div> --}}
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
-
-								<div id="forgot-box" class="forgot-box widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="bigger text-capitalize" style="color: black; font-size: xlarge;">
-											 	<b>{{__('text.forgot_password')}}</b>
-											</h4>
-											<span style="font-size: small; margin-bottom: 1rem;">{{__('text.pass_reset_phrase')}}</span>
-
-											<form method="POST" action="{{ route('reset_password_without_token') }}" style="padding-block: 1rem !important;">
-											@csrf
-												<fieldset>
-													<label class="block clearfix">
-														<span class="text-capitalize">{{__('text.word_email')}}</span>
-														<span class="block input-icon input-icon-right">
-															<input type="email" required name="email" class="form-control"  style="border-radius: 0.5rem !important; background-color: white !important; color: black"/>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="text-capitalize">{{__('text.phone_number')}}</span>
-														<span class="block input-icon input-icon-right">
-															<input type="tel" required name="phone" class="form-control"  style="border-radius: 0.5rem !important; background-color: white !important; color: black"/>
-														</span>
-													</label>
-
-													{{-- <label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="checkbox" name="type">  Am a student
-														</span>
-													</label> --}}
-
-													<div class="clearfix">
-														<button type="submit" class="form-control btn-black btn-sm"  style="border-radius: 2rem; background-color: black; border: 1px solid black; color: white; text-transform: capitalize; margin-block: 2rem;">
-															{{__('text.reset_password')}}
-														</button>
-													</div>
-												</fieldset>
-											</form>
-										</div><!-- /.widget-main -->
-
-										<div class="toolbar clearfix" style="border: 0px; padding-inline: 4rem;">
-											<a href="#" data-target="#login-box" class="form-control btn-black btn-sm text-center"  style="border-radius: 2rem; background-color: black; border: 1px solid black; color: white; text-transform: capitalize; font-weight: normal !important;">
-												<i class="ace-icon fa fa-arrow-left"></i>
-												{{__('text.back_to_login')}}
-											</a>
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.forgot-box -->
-
-								<div id="forgot-username-box" class="forgot-box widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="bigger text-capitalize" style="color: black; font-size: xlarge;">
-											 	<b>{{__('text.recover_your_username')}}</b>
-											</h4>
-											<span style="font-size: small; margin-bottom: 1rem;">{{__('text.recover_username_phrase')}}</span>
-
-											<form method="POST" action="{{ route('recover_username') }}" style="padding-block: 3rem !important;">
-												@csrf
-												<fieldset>
-													<label class="block clearfix">
-														<span class="text-capitalize">{{__('text.word_matricule')}}</span>
-														<span class="block input-icon input-icon-right">
-															<input type="text" required name="matric" class="form-control"  style="border-radius: 0.5rem !important; background-color: white !important; color: black"/>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right" style="text-transform: capitalize !important;">
-															<input type="checkbox" name="remember">  {{__('text.remember_maticule')}}
-														</span>
-													</label>
-
-													<div class="clearfix">
-														<button type="submit" class="form-control btn-black btn-sm"  style="border-radius: 2rem; background-color: black; border: 1px solid black; color: white; text-transform: capitalize; margin-block: 2rem;">
-															{{__('text.recover_username')}}
-														</button>
-													</div>
-												</fieldset>
-											</form>
-										</div><!-- /.widget-main -->
-
-										<div class="toolbar" style="border: 0px;">
-											<a href="#" data-target="#login-box" class=" text-danger" style="border: 0px; font-size: xsmall !important; width: 77% !important; margin-inline: auto; text-decoration: underline !important">
-												<i class="ace-icon fa fa-arrow-left"></i>
-												{{__('text.back_to_login')}}
-											</a>
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.forgot-box -->
-
 
 							</div>
 						</div>
