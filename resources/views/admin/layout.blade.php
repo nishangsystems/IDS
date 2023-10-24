@@ -249,38 +249,30 @@
                     
                 </ul>
             </li>
-            
-            
-            <li>
-                <a href="#" class="dropdown-toggle text-capitalize">
-                    <i  style="color: {{$bg1}}"class="menu-icon  fa fa-book"></i>
-                    <span class="menu-text"> {{__('text.word_schools')}}</span>
 
-                    <b class="arrow fa fa-angle-down"></b>
+            <li>
+                <a href="{{route('admin.schools.students')}}" class="text-capitalize">
+                    <i  style="color: {{$bg1}};" class="fa fa-users menu-icon   "></i>
+                    {{__('text.word_students')}}
                 </a>
-
                 <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li>
-                        <a href="{{ route('admin.schools') }}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_all')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.schools.create') }}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_create')}}
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                </ul>
             </li>
-
+            {{-- <li>
+                <a href="{{route('admin.schools.download_students')}}" class="text-capitalize">
+                    <i  style="color: {{$bg1}};" class="fa fa-download menu-icon   "></i>
+                    {{__('text.word_download')}}
+                </a>
+                <b class="arrow"></b>
+            </li> --}}
             <li>
-                <a href="{{route('admin.download')}}" class="text-capitalize">
+                <a href="{{route('admin.schools.students.import')}}" class="text-capitalize">
+                    <i  style="color: {{$bg1}};" class="fa fa-filter menu-icon   "></i>
+                    {{__('text.word_import')}}
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li>
+                <a href="{{route('admin.schools.download_students')}}" class="text-capitalize">
                     <i  style="color: {{$bg1}};" class="fa fa-download menu-icon   "></i>
                     {{__('text.word_download')}}
                 </a>

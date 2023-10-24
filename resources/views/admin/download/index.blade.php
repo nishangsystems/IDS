@@ -6,7 +6,7 @@
             <div class="inout-group d-flex py-3">
                 <select class="form-control" name="campus">
                     <option>select campus</option>
-                    @foreach (\App\Models\Students::where('school_id', $school->id)->distinct()->pluck('campus_id')->toArray() as $cmp)
+                    @foreach (\App\Models\Students::distinct()->pluck('campus')->toArray() as $cmp)
                         <option value="{{ $cmp }}">{{ $cmp }}</option>
                     @endforeach
                 </select>
