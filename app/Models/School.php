@@ -12,15 +12,5 @@ class School extends Model
     protected $table = 'schools';
 
     protected $fillable = ['name', 'contact', 'address', 'logo_path'];
-    protected $connection = 'mysql2';
 
-    public function campuses()
-    {
-        return $this->hasMany(Campus::class);
-    }
-
-    public function degrees()
-    {
-        return $this->hasMany(Degree::class);
-    }
 }

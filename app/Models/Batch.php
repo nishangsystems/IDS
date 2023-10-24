@@ -9,7 +9,6 @@ class Batch extends Model
 {
     use HasFactory;
     protected $fillable = ['name'];
-    protected $connection = 'mysql2';
 
     public function payIncomes()
     {

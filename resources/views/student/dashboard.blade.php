@@ -4,17 +4,98 @@
 $user = auth('student')->user();
 $user = $user == null ? auth()->user() : $user;
 @endphp
-<!-- <div>
-    <div id="user-profile-1" class="user-profile row">
-        <div style="width:90%; margin-block:1.5rem; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-auto rounded">
-            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. PRINT OUT YOUR FORM AND DEPOSIT THEM AT THE REGISTRY <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">672137794</span></span>
-            <span class="d-block w-100 text-danger text-center"><span class="text-primary">MOMO NUMBER -</span><span class="text-secondary"> NUMÉRO MOMO</span> :6 71 98 92 92 | MOMO NAME - <span class="text-secondary">NON SUR MOMO</span> :<span class="text-dark">EMELIE BERINYUY ASHUMBENG</span> | UNDERGRADUATE APPLICATION FEE - :<span class="text-primary">5,000 XAF</span> BACHELOR APPLICATION FEE - :<span class="text-primary">10,000 XAF </span> MASTERS APPLICATION FEE - :<span class="text-primary">20,000 XAF </span></span>
-        </div>
-        {{-- @if()
-        @endif --}}
-        <div class="my-5 py-3 mx-auto text-center alert-info shadow" style="width:90%; font-size:larger; font-weight:600">
-            lorem cjkjewhr iuhyiuehgwtr wk erijewhtjh sgfe t g w i i tit g jhewyu trgtuegt ht thgj
-        </div>
+    <div class="d-flex justify-content-center justify-items-center align-items-middle">
+        <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="col-md-11 col-lg-11 row mx-auto my-5 py-4 px-3">
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_name') }}</label>
+                    <div class="col-sm-12">
+                        <input class="form-control" name="name" value="{{ $user->name }}">
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_gender') }}</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="gender">
+                            <option></option>
+                            <option value="male" {{ $user->gender == 'male' ? 'selected' : '' }}>male</option>
+                            <option value="female" {{ $user->gender == 'female' ? 'selected' : '' }}>female</option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.date_of_birth') }}</label>
+                    <div class="col-sm-12">
+                        <input type="date" class="form-control" name="dob" value="{{ $user->dob }}">
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.place_of_birth') }}</label>
+                    <div class="col-sm-12">
+                        <input class="form-control" name="pob" value="{{ $user->pob }}">
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_matricule') }}</label>
+                    <div class="col-sm-12">
+                        <input class="form-control" name="matric" value="{{ $user->matric }}" readonly>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_program') }}</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="program">
+                            <option></option>
+                            @foreach ($programs as $prog)
+                                <option {{ $user->program??null  == $prog ? 'selected' : ''}}>{{ $prog }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_campus') }}</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="campus">
+                            <option></option>
+                            @foreach ($campuses as $campus)
+                                <option value="{{ $campus }}" {{ $campus == $user->campus??null ? 'selected' : '' }}>{{ $campus }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_level') }}</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="level">
+                            <option></option>
+                            @foreach ($levels as $level)
+                                <option value="{{ $level }}" {{ $user->level == $level ? 'select' : '' }}>{{ $level }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_nationality') }}</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="nationality">
+                            <option></option>
+                            @foreach (config('all_countries.list') as $country)
+                                <option value="{{ $country['name'] }}" {{ $user->nationality??null == $country['name'] ? 'selected' : '' }}>{{ $country['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                    <label class="col-sm-12">{{ __('text.word_photo') }}</label>
+                    <div class="col-sm-12">
+                        <input class="form-control" name="img_url" type="file" accept="image/*">
+                    </div>
+                </div> 
+                <div class="col-md-12 col-lg-12 py-3 d-flex justify-content-center">
+                    <input class="btn btn-md btn-primary" value="UPDATE" type="submit">
+                </div> 
+            </div>
+        </form>
     </div>
-</div> -->
 @endsection

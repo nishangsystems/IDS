@@ -1,31 +1,28 @@
 @extends('admin.layout')
 @section('section')
-    <div class="container">
-        <div class="py-3 text-capitalize px-3">
-            <a href="{{route('admin.schools.create')}}" class="btn btn-primary btn-sm">add school</a>
-        </div>
-        <table class="table table-stripped">
-            <thead>
-                <th>###</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th></th>
+    <div class="py-2">
+        <table class="table">
+            <thead class="border-bottom shadow-md">
+                <th class="border-left border-right">#</th>
+                <th class="border-left border-right">Name</th>
+                <th class="border-left border-right">
+                </th>
             </thead>
             <tbody>
-                @php($k = 1)
-                @foreach(\App\Models\School::all() as $schl)
-                <tr class="border-bottom">
-                    <td>{{$k++}}</td>
-                    <td>{{$schl->name}}</td>
-                    <td>{{$schl->contact}}</td>
-                    <td>{{$schl->address}}</td>
-                    <td class="d-flex justify-content-end">
-                        <span><a href="{{route('admin.schools.edit', $schl->id)}}" class="btn btn-sm btn-primary mx-1">{{__('text.word_edit')}}</a></span>
-                        <span><a href="{{route('admin.schools.preview', $schl->id)}}" class="btn btn-sm btn-success mx-1">{{__('text.word_details')}}</a></span>
-                        <span><a href="{{route('admin.schools.delete', $schl->id)}}" class="btn btn-sm btn-danger mx-1">{{__('text.word_delete')}}</a></span>
-                    </td>
-                </tr>
+                @php
+                    $k = 1
+                @endphp
+                @foreach(\App\Models\School::all() as $school)
+                    <tr class="border-bottom">
+                        <td class="border-left border-right">{{ $k++ }}</td>
+                        <td class="border-left border-right">{{ $school->name }}</td>
+                        <td class="border-left border-right">
+                            <a href="{{ route('admin.schools.edit', $school->id) }}" class="btn btn-dark btn-sm">edit</a>
+                            <a href="{{ route('admin.schools.students', $school->id) }}" class="btn btn-primary btn-sm">students</a>
+                            <a href="{{ route('admin.schools.download_students', $school->id) }}" class="btn btn-success btn-sm">download</a>
+                            <a href="{{ route('admin.schools.students.import', $school->id) }}" class="btn btn-info btn-sm">import students</a>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
