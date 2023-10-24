@@ -35,7 +35,6 @@
                     </tr>
                 </thead>
                 <tbody id="table_body">
-                    
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
@@ -50,7 +49,7 @@
 <script>
     $('#search_field').on('keyup', function() {
         let value = $(this).val();
-        url = '{{ route("search_students") }}';
+        url = '';
         // console.log(url);
         $.ajax({
             type: 'GET',

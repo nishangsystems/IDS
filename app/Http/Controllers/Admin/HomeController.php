@@ -105,38 +105,27 @@ class HomeController  extends Controller
         return redirect()->back()->with('success', __('text.word_done'));
     }
 
-    public function schools()
-    {
-        $data['title'] = "All Schools";
-        $data['schools'] = School::all();
-        return view('admin.schools.index', $data);
-    }
-
-    public function create_school()
-    {
-        $data['title'] = "Create New School";
-        return view('admin.schools.create', $data);
-    }
-
+    
     public function download_index()
     {
         $data['title'] = "Download Data";
         return view('admin.download.index', $data);
     }
 
-    public function students($school_id)
+    public function students()
     {
-        $data['title'] = (\App\Models\School::find($school_id)->name??null)." Students";
-        return view('admin.download.index', $data);
+        $data['title'] = "Students";
+        $data['students'] = Students::orderBy('name')->get();
+        return view('admin.students.index', $data);
     }
 
-    public function import_students($school_id)
+    public function import_students()
     {
-        $data['title'] = "Import Students For ".(\App\Models\School::find($school_id)->name??null);
+        $data['title'] = "Import Students";
         return view('admin.students.import', $data);
     }
 
-    public function save_students(Request $request, $school_id){
+    public function save_students(Request $request){
         $validator = Validator::make($request->all(), ['file'=>'required|file|mimes:csv']);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->first());
@@ -152,7 +141,7 @@ class HomeController  extends Controller
     
             $file_data = [];
             while(($row = fgetcsv($fstream, 1000, ',')) != null){
-                $file_data[] = ['name'=>$row[0], 'matric'=>$row[1], 'dob'=>$row[2], 'pob'=>$row[3], 'level'=>$row[4], 'program'=>$row[5], 'gender'=>$row[6], 'nationality'=>$row[7], 'campus'=>$row[8]??0, 'school_id'=>$school_id, 'created_at'=>date('Y-m-d H:i:s', time()), 'updated_at'=>date('Y-m-d H:i:s', time())];
+                $file_data[] = ['name'=>$row[0], 'matric'=>$row[1], 'dob'=>$row[2], 'pob'=>$row[3], 'level'=>$row[4], 'program'=>$row[5], 'gender'=>$row[6], 'nationality'=>$row[7], 'campus'=>$row[8]??0,'created_at'=>date('Y-m-d H:i:s', time()), 'updated_at'=>date('Y-m-d H:i:s', time())];
             }
             Students::insert($file_data);
             fclose($fstream);
@@ -163,22 +152,20 @@ class HomeController  extends Controller
         }
     }
 
-    public function download_students(Request $request, $school_id)
+    public function download_students(Request $request)
     {
-        $data['school'] = \App\Models\School::find($school_id);
-        $data['title'] = "Download Students For ".$data['school']->name;
+        $data['title'] = "Download Students";
         return view('admin.download.index', $data);
     }
 
-    public function download_students_save(Request $request, $school_id)
+    public function download_students_save(Request $request)
     {
-        $school = \App\Models\School::find($school_id);
 
         $path = public_path('uploads');
         $fname = 'f__'.time().'students'.random_int(1000, 9999).'.csv';
         
         
-        
+
         $students = Students::all()->filter(function($row)use($request){
             return Carbon::parse($request->start_date)->isBefore(Carbon::parse($row->updated_at)) && Carbon::parse($request->end_date)->isAfter(Carbon::parse($row->updated_at));
         });
