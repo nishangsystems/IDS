@@ -27,8 +27,10 @@ class Students extends Authenticatable
         'password',
         'school_id',
         'program',
-        'img_url'
+        'img_url', 'created_at', 'updated_at'
     ];
+
+    protected $dates = ['created_at', 'updated_at', 'dob'];
 
     public function school()
     {

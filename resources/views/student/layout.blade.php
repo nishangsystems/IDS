@@ -5,19 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
     <title>{!! $title ?? '' !!} | {{__('text.app_name')}}</title>
+    <meta name="_token" content="{{ csrf_token() }}">
 
     <meta name="description" content="overview &amp; stats" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- bootstrap & fontawesome -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/bootstrap-4/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/font-awesome/4.5.0/css/font-awesome.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/fonts.googleapis.com.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/ace.min.css')}}" class="ace-main-stylesheet" id="main-ace-style" />
     <link rel="stylesheet" href="{{asset('assets/css/ace-part2.min.css')}}" class="ace-main-stylesheet" />
     <link rel="stylesheet" href="{{asset('assets/css/ace-skins.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/ace-rtl.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('cropperjs/cropper.min.css')}}"/>
     <script src="{{asset('assets/js/ace-extra.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('libs')}}/datatables.net-bs4/css/dataTables.bootstrap4.css">
@@ -62,6 +64,21 @@
         }
         .dropdown-toggle:after {
             display: none;
+        }
+
+        img{
+            display: block;
+            max-width: 100%;
+        }
+        .preview{
+            overflow: hidden;
+            width: 160px;
+            height: 160px; 
+            margin: 10px;
+            border: 1px solid red;
+        }
+        .modal-lg{
+            max-width: 1000px !important;
         }
     </STYLE>
         @php
@@ -245,14 +262,7 @@
             </div>
 
             <div class=" ">
-                <div>
-                    <div id="user-profile-1" class="user-profile row">
-                        <div style="width:100%; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-1">
-                            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. PRINT OUT YOUR FORM AND DEPOSIT THEM AT THE SECRETARIAT <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">672137794</span></span>
-                            {{-- <span class="d-block w-100 text-danger text-center"><span class="text-primary">MOMO NUMBER -</span><span class="text-secondary"> NUMÉRO MOMO</span> :6 71 98 92 92 | MOMO NAME - <span class="text-secondary">NON SUR MOMO</span> :<span class="text-dark">EMELIE BERINYUY ASHUMBENG</span> | UNDERGRADUATE APPLICATION FEE - :<span class="text-primary">5,000 XAF</span> BACHELOR APPLICATION FEE - :<span class="text-primary">10,000 XAF </span> MASTERS APPLICATION FEE - :<span class="text-primary">20,000 XAF </span></span> --}}
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="mx-5 mb-5 mt-3">
                     @if(Session::has('success'))
                         <div class="alert alert-success fade in">
@@ -293,10 +303,11 @@
     <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 </a>
 </div>
-<script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
-<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('assets/jquery-3.5.1.min.js')}}"></script>
+<script src="{{asset('assets/bootstrap-4/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/vendor/toastr/toastr.min.js') }}"></script>
 <script src="{{asset('assets/js/ace.min.js')}}"></script>
+<script src="{{asset('cropperjs/cropper.min.js')}}"></script>
 
 <script src="{{ asset('libs')}}/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('libs')}}/datatables.net-bs4/js/dataTables.responsive.min.js"></script>

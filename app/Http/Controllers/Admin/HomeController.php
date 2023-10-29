@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config as FacadesConfig;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use MongoDB\Driver\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -141,12 +142,12 @@ class HomeController  extends Controller
     
             $file_data = [];
             while(($row = fgetcsv($fstream, 1000, ',')) != null){
-                $file_data[] = ['name'=>$row[0], 'matric'=>$row[1], 'dob'=>$row[2], 'pob'=>$row[3], 'level'=>$row[4], 'program'=>$row[5], 'gender'=>$row[6], 'nationality'=>$row[7], 'campus'=>$row[8]??0,'created_at'=>date('Y-m-d H:i:s', time()), 'updated_at'=>date('Y-m-d H:i:s', time())];
+                $file_data[] = ['name'=>$row[0], 'matric'=>$row[1], 'dob'=>$row[2], 'pob'=>$row[3], 'level'=>$row[4], 'program'=>$row[5], 'gender'=>$row[6], 'nationality'=>$row[7], 'campus'=>$row[8]??0,'created_at'=>date('Y-m-d H:i:s', time()), 'updated_at'=>date('Y-m-d H:i:s', time()), 'password'=>Hash::make('12345678')];
             }
             Students::insert($file_data);
             fclose($fstream);
             unlink("$path/$fname");
-            return back()->wit('success', "Done");
+            return back()->with('success', "Done");
         }catch(Throwable $th){
             return back()->with('error', $th->getMessage());
         }
@@ -161,12 +162,17 @@ class HomeController  extends Controller
     public function download_students_save(Request $request)
     {
 
+        $validator = Validator::make($request->all(), ['start_date'=>'required|date', 'end_date'=>'required|date']);
+        if($validator->fails()){
+            return back()->with('error', $validator->errors()->first())->withInput();
+        }
+
         $path = public_path('uploads');
         $fname = 'f__'.time().'students'.random_int(1000, 9999).'.csv';
         
         
 
-        $students = Students::all()->filter(function($row)use($request){
+        $students = Students::whereNotNull('img_url')->get()->filter(function($row)use($request){
             return Carbon::parse($request->start_date)->isBefore(Carbon::parse($row->updated_at)) && Carbon::parse($request->end_date)->isAfter(Carbon::parse($row->updated_at));
         });
         
@@ -176,7 +182,7 @@ class HomeController  extends Controller
         foreach($students as $stud){
             fputcsv(
                 $fstream, 
-                ['name'=>$stud->name, 'matric'=>$stud->matric, 'dob'=>$stud->dob, 'pob'=>$stud->pob, 'level'=>$stud->level, 'program'=>$stud->program, 'gender'=>$stud->gender, 'nationality'=>$stud->nationality, 'campus'=>$stud->campus, 'school_id'=>$school->name, 'imgage'=>$stud->img_url]
+                ['name'=>$stud->name, 'matric'=>$stud->matric, 'dob'=>$stud->dob->format('d/m/Y'), 'pob'=>$stud->pob, 'level'=>$stud->level, 'program'=>$stud->program, 'gender'=>$stud->gender, 'nationality'=>$stud->nationality, 'campus'=>$stud->campus, 'imgage'=>$stud->img_url]
             );
         }
         fclose($fstream);

@@ -12,8 +12,8 @@
                 </select>
             </div>
             <div class="inout-group d-flex py-3">
-                <input type="date" class="form-control" name="range_from" placeholder="Start date">
-                <input type="date" class="form-control" name="rage_to" placeholder="end date">
+                <input type="date" class="form-control" name="start_date" placeholder="Start date" required>
+                <input type="date" class="form-control" name="end_date" placeholder="end date" required>
             </div>
             <div class="py-3 d-flex justify-content-end">
                 <button class="btn btn-sm btn-primary" type="submit">Downlaod</button>
