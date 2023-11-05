@@ -985,5 +985,6 @@ return [
     
     'by_campus'=>'by campus',
     'word_schools'=>'schools',
+    'word_photo'=>'photo',
     ''
 ];

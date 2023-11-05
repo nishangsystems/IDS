@@ -101,16 +101,38 @@ class HomeController extends Controller
             'program' => 'required',
             'campus' => 'required',
             'level' => 'required',
+            'image' => 'file|nullable',
             'nationality' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->with(['error' => $validator->errors()->first()])->withInput();
         }
 
+
         $stud = auth('student')->user();
+        $data = [];
+        if($request->image != null){
+            $img_path = public_path('uploads/id_images/');
+            $file = $request->file('image');
+            
+            // return $file_type_aux;
+            $file_type = $file->getClientOriginalExtension();
+            $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
+            $file->move($img_path, $fname);
+
+            // if($stud->img_url != null && file_exists($img_path.$stud->img_url)){
+            //     unlink($img_path.$stud->img_url);
+            // }
+            $request_data = $request->data;
+            // return $request_data;
+            $stud->img_url = $fname;
+            // return 1234;
+            $stud->save();
+        }
+
         $data = ['name'=>$request->name, 'pob'=>$request->pob, 'dob'=>$request->dob, 'gender'=>$request->gender, 'campus'=>$request->campus, 'level'=>$request->level, 'nationality'=>$request->nationality];
         $stud->update($data);
-        return redirect(route('student.add_image'))->with(['success' => 'Record updated successfully']);
+        return redirect(route('student.home'))->with(['success' => 'Record updated successfully']);
         
     }
 
