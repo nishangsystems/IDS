@@ -61,7 +61,8 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->group(funct
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
     Route::post('update', 'Student\HomeController@update')->name('update');
-    Route::post('add_image', 'Student\HomeController@update_image')->name('add_image');
+    Route::get('add_image', 'Student\HomeController@update_image')->name('add_image');
+    Route::post('add_image', 'Student\HomeController@update_image_save');
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 });

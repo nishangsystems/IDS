@@ -92,7 +92,6 @@ class HomeController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'matric' => 'required',
@@ -102,35 +101,79 @@ class HomeController extends Controller
             'program' => 'required',
             'campus' => 'required',
             'level' => 'required',
+            'image' => 'file|nullable',
             'nationality' => 'required',
-            'img_url' => 'required|file',
         ]);
-
-
         if ($validator->fails()) {
             return redirect()->back()->with(['error' => $validator->errors()->first()])->withInput();
         }
 
 
         $stud = auth('student')->user();
-        if(($file = $request->file('img_url')) != null){
+        $data = [];
+        if($request->image != null){
             $img_path = public_path('uploads/id_images/');
-            $fname = 'photo__'.time().'__'.random_int(1000, 9999).'.'.$file->getClientOriginalExtension();
+            $file = $request->file('image');
+            
+            // return $file_type_aux;
+            $file_type = $file->getClientOriginalExtension();
+            $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
             $file->move($img_path, $fname);
 
-            if($stud->img_url !== null && file_exists($img_path.$stud->img_url)){
-                unlink($img_path.$stud->img_url);
-            }
+            // if($stud->img_url != null && file_exists($img_path.$stud->img_url)){
+            //     unlink($img_path.$stud->img_url);
+            // }
+            $request_data = $request->data;
+            // return $request_data;
             $stud->img_url = $fname;
+            // return 1234;
+            $stud->save();
         }
 
         $data = ['name'=>$request->name, 'pob'=>$request->pob, 'dob'=>$request->dob, 'gender'=>$request->gender, 'campus'=>$request->campus, 'level'=>$request->level, 'nationality'=>$request->nationality];
         $stud->update($data);
-        return redirect()->back()->with(['success' => 'Record updated successfully']);
+        return redirect(route('student.home'))->with(['success' => 'Record updated successfully']);
+        
+    }
+
+    public function update_image_save(Request $request){
+
+        // return 1234;
+        $validator = Validator::make($request->all(), ['image'=>'required']);            
+        if ($validator->fails()) {
+            return  $validator->errors()->first();
+        }
+
+        try{
+            $stud = auth('student')->user();
+            $data = [];
+            if($request->image != null){
+                $img_path = public_path('uploads/id_images/');
+                // $fname = 'photo__'.time().'__'.random_int(1000, 9999).'.'.$file->getClientOriginalExtension();
+                $file_parts = explode(';base64,', $request->image);
+                $file_type_aux = explode('image/', $file_parts[0]);
+                // return $file_type_aux;
+                $file_type = $file_type_aux[1];
+                $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
+                $file_base64 = base64_decode($file_parts[1]);
+                file_put_contents($img_path.$fname, $file_base64);
+
+                // if($stud->img_url != null && file_exists($img_path.$stud->img_url)){
+                //     unlink($img_path.$stud->img_url);
+                // }
+                $request_data = $request->data;
+                // return $request_data;
+                $stud->img_url = $fname;
+                // return 1234;
+                $stud->save();
+                return redirect()->back()->with(['success' => 'Record updated successfully']);
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     public function update_image(Request $request){
-        $data['request_data'] = $request->all();
         $data['title'] = "Update Photo";
         return view('student.add_image', $data);
     }

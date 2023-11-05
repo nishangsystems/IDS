@@ -4,6 +4,9 @@
 $user = auth('student')->user();
 $user = $user == null ? auth()->user() : $user;
 @endphp
+    <div class="text-center py-3 alert-warning h4">
+        <b>Warning:</b> You can only update your information/image once. So make sure your information is correct before updating.
+    </div>
     <div class="d-flex justify-content-center justify-items-center align-items-middle">
         <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
             @csrf
@@ -25,9 +28,9 @@ $user = $user == null ? auth()->user() : $user;
                     </div>
                 </div> 
                 <div class="col-md-6 col-lg-4 py-3 text-capitalize">
-                    <label class="col-sm-12">{{ __('text.date_of_birth') }}</label>
+                    <label class="col-sm-12">{{ __('text.date_of_birth') }} <span class="text-danger">({{ $user->dob->format('d-m-Y') }})</span></label>
                     <div class="col-sm-12">
-                        <input type="date" class="form-control" name="dob" value="{{ $user->dob }}">
+                        <input type="date" class="form-control" name="dob" value="{{ $user->dob->format('m/d/Y') }}">
                     </div>
                 </div> 
                 <div class="col-md-6 col-lg-4 py-3 text-capitalize">
@@ -70,7 +73,7 @@ $user = $user == null ? auth()->user() : $user;
                         <select class="form-control" name="level">
                             <option></option>
                             @foreach ($levels as $level)
-                                <option value="{{ $level }}" {{ $user->level == $level ? 'select' : '' }}>{{ $level }}</option>
+                                <option value="{{ $level }}" {{ $user->level == $level ? 'selected' : '' }}>{{ $level }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -81,7 +84,7 @@ $user = $user == null ? auth()->user() : $user;
                         <select class="form-control" name="nationality">
                             <option></option>
                             @foreach (config('all_countries.list') as $country)
-                                <option value="{{ $country['name'] }}" {{ $user->nationality??null == $country['name'] ? 'selected' : '' }}>{{ $country['name'] }}</option>
+                                <option value="{{ $country['name'] }}" {{ ($user->nationality??null) == $country['name'] ? 'selected' : '' }}>{{ $country['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -89,13 +92,30 @@ $user = $user == null ? auth()->user() : $user;
                 <div class="col-md-6 col-lg-4 py-3 text-capitalize">
                     <label class="col-sm-12">{{ __('text.word_photo') }}</label>
                     <div class="col-sm-12">
-                        <input class="form-control" name="img_url" type="file" accept="image/*">
+                        <input class="form-control" name="image" type="file" accept="image/*" onchange="preview(event)">
                     </div>
-                </div> 
+                </div>
                 <div class="col-md-12 col-lg-12 py-3 d-flex justify-content-center">
-                    <input class="btn btn-md btn-primary" value="UPDATE" type="submit">
+                    @if($user->img_url != null)
+                        <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem;" src="{{ asset('uploads/id_images/'.$user->img_url) }}">
+                    @else
+                        <div class="d-flex justify-content-end col-12">
+                            <img id="preview_img" class="img-responsive" style="width: 12rem; height: 12rem; border-radius: 0.6rem;">
+                        </div>
+                        <input class="btn btn-md btn-primary" value="UPDATE" type="submit">
+                    @endif
                 </div> 
             </div>
         </form>
     </div>
+@endsection
+@section('script')
+    <script>
+    
+        let preview = function(event){
+            let file = event.target.files[0];
+            let url = URL.createObjectURL(file);
+            $('#preview_img').prop('src', url);
+        }
+    </script>
 @endsection
