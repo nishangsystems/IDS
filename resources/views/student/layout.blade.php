@@ -368,7 +368,8 @@
 <script src="{{ asset('libs')}}/datatables.net/js/buttons.html5.min.js"></script>
 
 <script>
-    (function($){
+    
+    $(function(){
         'use strict';
         $(window).on('load', function () {
             if ($(".pre-loader").length > 0)
@@ -376,7 +377,7 @@
                 $(".pre-loader").fadeOut("slow");
             }
         });
-    })(jQuery)
+    })
 </script>
 @yield('script')
 </body>
