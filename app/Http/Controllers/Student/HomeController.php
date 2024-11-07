@@ -4,79 +4,14 @@ namespace App\Http\Controllers\Student;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\TransactionController;
-use App\Http\Services\ApiService;
-use App\Http\Services\SMSHelpers;
-use App\Models\ApplicationForm;
 use App\Models\Batch;
-use App\Models\Campus;
-use App\Models\CampusProgram;
-use App\Models\CampusSemesterConfig;
-use App\Models\Charge;
-use App\Models\ClassSubject;
-use App\Models\Config;
-use App\Models\CourseNotification;
-use App\Models\Income;
-use App\Models\Material;
-use App\Models\NonGPACourse;
-use App\Models\Notification;
-use App\Models\PayIncome;
-use App\Models\Payments;
-use App\Models\PlatformCharge;
-use App\Models\ProgramLevel;
-use App\Models\Resit;
-use App\Models\Result;
-use App\Models\SchoolUnits;
-use App\Models\Semester;
-use App\Models\Sequence;
-use App\Models\StudentClass;
 use App\Models\Students;
-use App\Models\StudentStock;
-use App\Models\StudentSubject;
-use App\Models\SubjectNotes;
-use App\Models\Subjects;
-use App\Models\Topic;
-use App\Models\Transaction;
-use App\Models\Transcript;
-use App\Models\TranzakCredential;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Throwable;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use Exception;
-use GuzzleHttp\Exception\ConnectException;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    private $years;
-    private $batch_id;
-    private $select = [
-        'students.id as student_id',
-        'collect_boarding_fees.id',
-        'students.name',
-        'students.matric',
-        'collect_boarding_fees.amount_payable',
-        'collect_boarding_fees.status',
-        'school_units.name as class_name'
-    ];
-
-    private $select_boarding = [
-        'students.id as student_id',
-        'students.name',
-        'students.matric',
-        'collect_boarding_fees.id',
-        'boarding_amounts.created_at',
-        'boarding_amounts.amount_payable',
-        'boarding_amounts.total_amount',
-        'boarding_amounts.status',
-        'boarding_amounts.balance'
-    ];
-
+    
     public function index()
     {
         $data['programs'] = Students::distinct()->pluck('program')->toArray();
@@ -94,8 +29,8 @@ class HomeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'matric' => 'required',
-            'gender' => 'required',
+            'matricule' => 'required',
+            'sex' => 'required',
             'pob' => 'required',
             'dob' => 'required',
             'program' => 'required',
@@ -105,34 +40,30 @@ class HomeController extends Controller
             'nationality' => 'required',
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->with(['error' => $validator->errors()->first()])->withInput();
+            session()->flash('error', $validator->errors()->first());
+            return back()->withInput();
         }
 
 
         $stud = auth('student')->user();
-        $data = [];
+
+        $update = $request->all();
         if($request->image != null){
-            $img_path = public_path('uploads/id_images/');
+            $img_path = public_path('uploads/id_images/'.now()->format('Y-m'));
             $file = $request->file('image');
             
-            // return $file_type_aux;
             $file_type = $file->getClientOriginalExtension();
             $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
             $file->move($img_path, $fname);
 
-            // if($stud->img_url != null && file_exists($img_path.$stud->img_url)){
-            //     unlink($img_path.$stud->img_url);
-            // }
-            $request_data = $request->data;
-            // return $request_data;
-            $stud->img_url = $fname;
+            $update['photo'] = $fname;
+            $update['img_path'] = $img_path;
+            $update['link'] = asset('uploads/id_images/'.now()->format('Y-m').'/'.$fname);
             // return 1234;
-            $stud->save();
         }
+        $stud->update($update);
 
-        $data = ['name'=>$request->name, 'pob'=>$request->pob, 'dob'=>$request->dob, 'gender'=>$request->gender, 'campus'=>$request->campus, 'level'=>$request->level, 'nationality'=>$request->nationality];
-        $stud->update($data);
-        return redirect(route('student.home'))->with(['success' => 'Record updated successfully']);
+        return redirect(route('student.home'))->with('success', 'Record updated successfully');
         
     }
 
@@ -149,22 +80,16 @@ class HomeController extends Controller
             $data = [];
             if($request->image != null){
                 $img_path = public_path('uploads/id_images/');
-                // $fname = 'photo__'.time().'__'.random_int(1000, 9999).'.'.$file->getClientOriginalExtension();
+
                 $file_parts = explode(';base64,', $request->image);
                 $file_type_aux = explode('image/', $file_parts[0]);
-                // return $file_type_aux;
+
                 $file_type = $file_type_aux[1];
                 $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
                 $file_base64 = base64_decode($file_parts[1]);
                 file_put_contents($img_path.$fname, $file_base64);
 
-                // if($stud->img_url != null && file_exists($img_path.$stud->img_url)){
-                //     unlink($img_path.$stud->img_url);
-                // }
-                $request_data = $request->data;
-                // return $request_data;
                 $stud->img_url = $fname;
-                // return 1234;
                 $stud->save();
                 return redirect()->back()->with(['success' => 'Record updated successfully']);
             }
@@ -173,16 +98,33 @@ class HomeController extends Controller
         }
     }
 
-    public function update_image(Request $request){
-        $data['title'] = "Update Photo";
-        return view('student.add_image', $data);
+    public function drop_image(Request $request){
+        $student = auth('student')->user();
+        try {
+            //code...
+            if($student->photo != null){
+                $path = $student->img_path.'/'.$student->photo;
+                if(file_exists($path)){
+                    unlink($path);
+                }else{
+                    // dd($path);
+                }
+            }
+    
+            $update = ['photo'=>null, 'link'=>null, 'img_path'=>null];
+            $student->update($update);
+    
+            return back()->with('success', "Operation complete");
+        } catch (\Throwable $th) {
+            //throw $th;
+            session()->flash('error', "F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
+            return back();
+        }
     }
 
     public function __construct()
     {
-        // $this->middleware('isStudent');
-        // $this->boarding_fee =  BoardingFee::first();
-        //  $this->year = Batch::find(Helpers::instance()->getCurrentAccademicYear())->name;
+        
         $this->batch_id = Batch::find(Helpers::instance()->getCurrentAccademicYear())->id;
         $this->years = Batch::all();
     }

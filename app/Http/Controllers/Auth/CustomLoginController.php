@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\School;
 use App\Models\Students;
 use App\Models\User;
-// use Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use \Cookie;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class CustomLoginController extends Controller
 {
@@ -92,20 +93,53 @@ class CustomLoginController extends Controller
         //validate the form data
         $this->validate($request, [
             'username' => 'required',
-            'password' => 'required|min:2'
         ]);
         // Update login: student can login with matric and phone/password, admin login with email and password
-        if( (Auth::guard('student')->attempt(['matric'=>$request->username,'password'=>$request->password], $request->remember))){
+        $school_system_domain = School::first()->system_domain_url;
+        if($school_system_domain == null){
+            session()->flash('error', "No url is configured for the school system domain. Configure url and try again.");
+            return back()->withInput();
+        }
+        $url = $school_system_domain.'/api/get_student_with_matric?matric='.$request->username;
+        // dd($url);
+        $student = Http::get($url)->collect();
+        // dd($student);
+        if($student != null){
             // return "Spot 1";
-            return redirect()->intended(route('student.home'));
-        }else{
-            if( Auth::attempt(['username'=>$request->username,'password'=>$request->password])){
-                return redirect()->route('admin.home')->with('success','Welcome to Admin Dashboard '.Auth::user()->name);
+            // dd($data);
+            
+            if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
+                $student_info = $student->get('student');
+                $class_info = $student->get('student_class');
+                $data = [
+                    'name' => $student_info['name'], 
+                    'matricule' => $request->username,
+                    'dob' => $student_info['dob'],
+                    'pob' => $student_info['pob'],
+                    'sex' => $student_info['gender'],
+                    'nationality' => $student_info['nationality'],
+                    'program' => $student->get('program')['name'],
+                    'level' => $student->get('level')['level'],
+                    'photo' => null,
+                    'campus' => $student->get('campus')['name'],
+                    'status' => '0',
+                    'date' => now()->format('Y-m-d'),
+                    'updated_at' => NULL,
+                    'created_at'=>null,
+                    'img_path' => null,
+                    'link' => null,
+                    'user_id' => NULL,
+                    'valid' => '2025'
+                ];
+                $instance = Students::create($data);
             }
+            auth('student')->login($instance);
+            // return "Spot 2";
+            return redirect()->to(route('student.home'));
         }
         // return "Spot 3";
-        $request->session()->flash('error', 'Invalid Username or Password');
-        return redirect()->route('login')->withInput($request->only('username','remember'));
+        $request->session()->flash('error', 'Invalid Username');
+        return redirect()->route('login')->withInput($request->only('username'));
     }
 
     public function logout(Request $request){

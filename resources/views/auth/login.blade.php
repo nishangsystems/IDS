@@ -34,7 +34,7 @@
 			#login-frame{
 				position: relative;
 				width: 350px;
-				height: 400px;
+				height: 300px;
 				min-height: fit-content;
 				margin-inline: auto;
 				border-radius: 24px;
@@ -145,7 +145,7 @@
 											@csrf
 												<fieldset style="color: black; margin-block: 2rem;">
 													<label class="block clearfix">
-														<span class="text-capitalize">{{__('text.word_email')}} / {{ __('text.phone_number') }}</span>
+														<span class="text-capitalize">{{__('text.word_matricule')}}</span>
 														<span class="block input-icon input-icon-right" style="background-color: white !important;">
 															<input type="text" required class="form-control" value="{{old("username")}}" name="username" style="border-radius: 0.5rem !important; background-color: white !important; color: black" />
 														</span>
@@ -155,7 +155,7 @@
 															</span>
 														@enderror
 													</label>
-													<div class="space"></div>
+													{{-- <div class="space"></div>
 													<label class="block clearfix">
 														<span class="text-capitalize">{{__('text.word_password')}}</span>
 														<span class="block input-icon input-icon-right">
@@ -166,7 +166,7 @@
 																<strong>{{ $message }}</strong>
 															</span>
 														@enderror
-													</label>
+													</label> --}}
 
 													<div class="space"></div>
 

@@ -139,20 +139,7 @@
                     @endforeach
                     </div>
                 </li>
-                <li class="grenn dropdown-modal">
-                    <a data-toggle="dropdown" class="dropdown-toggle text-white font-weight-bold" id="bg_primary_1" style="background-color: {{$bg2}};">
-                        Batch : {{ \App\Models\Batch::find(Session::get('mode', \App\Helpers\Helpers::instance()->getCurrentAccademicYear()))->name ?? ''}}
-                        <i class="ace-icon fa fa-caret-down"></i>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        @foreach(\App\Models\Batch::orderBy('name')->get() as $batch)
-                            <li>
-                                <a href="{{ route('mode',$batch->id) }}">{{$batch->name}}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
+                
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle" id="bg_primary_2" style="background-color: {{$bg2}};">
                         <img class="nav-user-photo" src="{{asset('assets/images/avatars/user.jpg')}}"
@@ -207,9 +194,7 @@
         </script>
 
         <div class="sidebar-shortcuts" id="sidebar-shortcuts" style="background-color: {{$bg3}}; color: {{$bg1}};">
-            <div>
-                <h5>{{\App\Models\Batch::find(\App\Helpers\Helpers::instance()->getCurrentAccademicYear())->name}}</h5>
-            </div>
+            <div></div>
         </div><!-- /.sidebar-shortcuts -->
         <ul class="nav nav-list text-capitalize">
             <li>
@@ -256,11 +241,10 @@
                     </li>
                     <li class="active">Student Dashboard</li>
                     <li class="active"> Full Name: <b style="color: #e30000">{{auth('student')->user()->name}}</b></li>
-                    <li class="active text-capitalize"> {{__('text.word_matricule')}}: <b style="color: #e30000">{{auth('student')->user()->matric}}</b></li>
+                    <li class="active text-capitalize"> {{__('text.word_matricule')}}: <b style="color: #e30000">{{auth('student')->user()->matricule}}</b></li>
 
                 </ul><!-- /.breadcrumb -->
             </div>
-
             <div class=" ">
                 
                 <div class="mx-5 mb-5 mt-3">
