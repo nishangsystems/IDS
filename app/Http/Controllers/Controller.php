@@ -2,18 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helpers;
-use App\Http\Controllers\SMS\Helpers as SMSHelpers;
-use App\Http\Services\FocusTargetSms;
-use App\Models\Campus;
-use App\Models\CampusProgram;
-use App\Models\ClassSubject;
-use App\Models\File;
-use App\Models\Region;
 use App\Models\Students;
-use App\Models\TeachersSubject;
 use App\Models\User;
-use App\Models\Wage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -23,10 +13,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Twilio\Rest\Client;
 
 /**
  * Summary of Controller

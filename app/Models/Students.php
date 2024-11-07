@@ -15,26 +15,10 @@ class Students extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
-        'matric',
-        'nationality',
-        'level',
-        'gender',
-        'dob',
-        'pob',
-        'campus',
-        'password',
-        'school_id',
-        'program',
-        'img_url', 'created_at', 'updated_at'
+        'name', 'matricule', 'dob', 'pob', 'sex', 'nationality', 'program', 'level',
+        'photo', 'campus', 'status', 'date', 'img_path', 'link', 'user_id', 'valid'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'dob'];
-
-    public function school()
-    {
-        return $this->belongsTo(School::class, 'school_id');
-    }
 
 }
