@@ -11,13 +11,13 @@ $user = $user == null ? auth()->user() : $user;
         <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
             @csrf
             <div class="col-md-11 col-lg-11 row mx-auto my-5 py-4 px-3">
-                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                <div class="col-md-8 col-lg-6 py-3 text-capitalize">
                     <label class="col-sm-12">{{ __('text.word_name') }}</label>
                     <div class="col-sm-12">
                         <input class="form-control" required name="name" value="{{ old('name', $user->name) }}">
                     </div>
                 </div> 
-                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                <div class="col-md-4 col-lg-3 py-3 text-capitalize">
                     <label class="col-sm-12">{{ __('text.word_gender') }}</label>
                     <div class="col-sm-12">
                         <select class="form-control" required name="sex">
@@ -27,7 +27,7 @@ $user = $user == null ? auth()->user() : $user;
                         </select>
                     </div>
                 </div> 
-                <div class="col-md-6 col-lg-4 py-3 text-capitalize">
+                <div class="col-md-6 col-lg-3 py-3 text-capitalize">
                     <label class="col-sm-12">{{ __('text.date_of_birth') }} <span class="text-danger">({{ old('dob', $user->dob)==null ? null : now()->parse(old('dob', $user->dob))->format('Y-m-d') }})</span></label>
                     <div class="col-sm-12">
                         <input type="date" required class="form-control" name="dob" value="{{ old('dob', $user->dob)==null ? null : now()->parse(old('dob', $user->dob))->format('Y-m-d') }}">
@@ -95,21 +95,26 @@ $user = $user == null ? auth()->user() : $user;
                         <input class="form-control" required name="image" type="file" accept="image/*" onchange="preview(event)">
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-12 py-3 d-flex justify-content-center">
-                    @if($user->photo != 0)
+                <div class="col-12 py-3 d-flex justify-content-center bg-dark rounded">
+                    @if($user->photo != null)
                         <div class="d-flex justify-content-end col-12">
                             <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem; border-radius: 0.6rem;" src="{{ $user->link }}">
                         </div>
-                        @if($user->status == 0)
-                            <span class="d-flex flex-column justify-content-end"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
-                        @endif
                     @else
                         <div class="d-flex justify-content-end col-12">
                             <img id="preview_img" class="img-responsive" style="width: 12rem; height: 12rem; border-radius: 0.6rem;">
                         </div>
-                        <input class="btn btn-md btn-primary" value="UPDATE" type="submit">
                     @endif
                 </div> 
+                <dov class="col-12 d-flex justify-content-end py-2 border-top">
+                    @if($user->photo != null)
+                        @if($user->status == 0)
+                            <span class="d-flex flex-column justify-content-end rounded"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
+                        @endif
+                    @else
+                        <input class="btn btn-md btn-primary rounded" value="UPDATE" type="submit">
+                    @endif
+                </dov>
             </div>
         </form>
     </div>
