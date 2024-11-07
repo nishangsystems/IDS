@@ -110,9 +110,8 @@ class CustomLoginController extends Controller
                 // return "Spot 1";
                 // dd($data);
                 
-                if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
-                    $student_info = $student->get('student');
-                    $class_info = $student->get('student_class');
+                $student_info = $student->get('student');
+                $class_info = $student->get('student_class');
                     $program = $student->get('program');
                     $level = $student->get('level');
                     $campus = $student->get('campus');
@@ -120,28 +119,40 @@ class CustomLoginController extends Controller
                         session()->flash('error', $student->get('message', "No student was found with given matricule"));
                         return back();
                     }
-                    $data = [
-                        'name' => $student_info['name'], 
-                        'matricule' => $request->username,
-                        'dob' => $student_info['dob'],
-                        'pob' => $student_info['pob'],
-                        'sex' => $student_info['gender'],
-                        'nationality' => $student_info['nationality'],
-                        'program' => $program == null ? '' : $program['name'],
-                        'level' => $level == null ? '' : $level['level'],
-                        'photo' => null,
-                        'campus' => $campus == null ? '' : $campus['name'],
-                        'status' => '0',
-                        'date' => now()->format('Y-m-d'),
-                        'updated_at' => NULL,
-                        'created_at'=>null,
-                        'img_path' => null,
-                        'link' => null,
-                        'user_id' => NULL,
-                        'valid' => '2025'
-                    ];
-                    $instance = Students::create($data);
-                }
+                    if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
+                        $data = [
+                            'name' => $student_info['name'], 
+                            'matricule' => $request->username,
+                            'dob' => $student_info['dob'],
+                            'pob' => $student_info['pob'],
+                            'sex' => $student_info['gender'],
+                            'nationality' => $student_info['nationality'],
+                            'program' => $program == null ? '' : $program['name'],
+                            'level' => $level == null ? '' : $level['level'],
+                            'photo' => null,
+                            'campus' => $campus == null ? '' : $campus['name'],
+                            'status' => '0',
+                            'date' => now()->format('Y-m-d'),
+                            'updated_at' => NULL,
+                            'created_at'=>null,
+                            'img_path' => null,
+                            'link' => null,
+                            'user_id' => NULL,
+                            'valid' => '2025'
+                        ];
+                        $instance = Students::create($data);
+                    }else{
+                        $instance->update([
+                            'name' => $student_info['name'], 
+                            'matricule' => $request->username,
+                            'dob' => $instance->dob ?? $student_info['dob'],
+                            'pob' => $instance->pob ?? $student_info['pob'],
+                            'sex' => $student_info['gender'],
+                            'program' => $program == null ? '' : $program['name'],
+                            'level' => $level == null ? '' : $level['level'],
+                            'campus' => $campus == null ? '' : $campus['name'],
+                        ]);
+                    }
                 auth('student')->login($instance);
                 // return "Spot 2";
                 return redirect()->to(route('student.home'));
