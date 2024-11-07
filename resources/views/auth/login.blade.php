@@ -124,21 +124,7 @@
 											 	<b>{{__('text.log_in')}}</b>
 											</h4>
 
-											@if(Session::has('error'))
-												<div class="alert alert-danger"><em> {!! session('error') !!}</em>
-												</div>
-											@endif
-
-
-											@if(Session::has('e'))
-												<div class="alert alert-danger"><em> {!! session('e') !!}</em>
-												</div>
-											@endif
-
-											@if(Session::has('s'))
-												<div class="alert alert-success"><em> {!! session('s') !!}</em>
-												</div>
-											@endif
+											
 											<div class="space-6"></div>
 
 											<form method="post" action="{{route('login.submit')}}">

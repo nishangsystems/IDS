@@ -113,6 +113,9 @@ class CustomLoginController extends Controller
                 if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
                     $student_info = $student->get('student');
                     $class_info = $student->get('student_class');
+                    $program = $student->get('program');
+                    $level = $student->get('level');
+                    $campus = $student->get('campus');
                     if($student_info == null){
                         session()->flash('error', $student->get('message', "No student was found with given matricule"));
                         return back();
@@ -124,10 +127,10 @@ class CustomLoginController extends Controller
                         'pob' => $student_info['pob'],
                         'sex' => $student_info['gender'],
                         'nationality' => $student_info['nationality'],
-                        'program' => $student->get('program')['name'],
-                        'level' => $student->get('level')['level'],
+                        'program' => $program == null ? '' : $program['name'],
+                        'level' => $level == null ? '' : $level['level'],
                         'photo' => null,
-                        'campus' => $student->get('campus')['name'],
+                        'campus' => $campus == null ? '' : $campus['name'],
                         'status' => '0',
                         'date' => now()->format('Y-m-d'),
                         'updated_at' => NULL,
