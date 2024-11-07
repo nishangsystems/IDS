@@ -49,7 +49,7 @@ class HomeController extends Controller
 
         $update = $request->all();
         if($request->image != null){
-            $img_path = public_path('uploads/id_images/'.now()->format('Y-m'));
+            $img_path = public_path('uploads/id_images/'.now()->format('Y-m')).'/day-'.now()->format('d');
             $file = $request->file('image');
             
             $file_type = $file->getClientOriginalExtension();
@@ -58,7 +58,7 @@ class HomeController extends Controller
 
             $update['photo'] = $fname;
             $update['img_path'] = $img_path;
-            $update['link'] = asset('uploads/id_images/'.now()->format('Y-m').'/'.$fname);
+            $update['link'] = asset('uploads/id_images/'.now()->format('Y-m').'/day-'.now()->format('d').'/'.$fname);
             // return 1234;
         }
         $stud->update($update);
