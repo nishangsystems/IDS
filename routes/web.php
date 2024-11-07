@@ -38,14 +38,8 @@ Route::get('reset_password_with_token/{token}/{email}', [CustomForgotPasswordCon
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function () {
     Route::get('', 'Admin\HomeController@index')->name('home');
     Route::get('home', 'Admin\HomeController@index')->name('home');
-    // Route::get('download', 'Admin\HomeController@download_index')->name('download');
     Route::get('setayear', 'Admin\HomeController@setayear')->name('setayear');
     Route::post('setayear/{id}', 'Admin\HomeController@setAcademicYear')->name('createacademicyear');
-    // Route::get('schools', [HomeController::class, 'schools'])->name('schools');
-    // Route::get('schools/create', [HomeController::class, 'create_school'])->name('schools.create');
-    // Route::post('schools/create', [HomeController::class, 'save_school']);
-    // Route::get('schools/{school_id}/update', [HomeController::class, 'edit_school'])->name('schools.edit');
-    // Route::post('schools/{school_id}/update', [HomeController::class, 'update_school']);
     Route::get('students', [HomeController::class, 'students'])->name('schools.students');
     Route::get('students/import', [HomeController::class, 'import_students'])->name('schools.students.import');
     Route::post('students/import', [HomeController::class, 'save_students']);
@@ -61,7 +55,7 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->group(funct
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
     Route::post('update', 'Student\HomeController@update')->name('update');
-    Route::get('add_image', 'Student\HomeController@update_image')->name('add_image');
+    Route::get('drop_image', 'Student\HomeController@drop_image')->name('drop_image');
     Route::post('add_image', 'Student\HomeController@update_image_save');
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');

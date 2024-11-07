@@ -59,7 +59,6 @@ class HomeController extends Controller
             $update['photo'] = $fname;
             $update['img_path'] = $img_path;
             $update['link'] = asset('uploads/id_images/'.now()->format('Y-m').'/'.$fname);
-            $update['status'] = 1;
             // return 1234;
         }
         $stud->update($update);
@@ -99,9 +98,28 @@ class HomeController extends Controller
         }
     }
 
-    public function update_image(Request $request){
-        $data['title'] = "Update Photo";
-        return view('student.add_image', $data);
+    public function drop_image(Request $request){
+        $student = auth('student')->user();
+        try {
+            //code...
+            if($student->photo != null){
+                $path = $student->img_path.'/'.$student->photo;
+                if(file_exists($path)){
+                    unlink($path);
+                }else{
+                    // dd($path);
+                }
+            }
+    
+            $update = ['photo'=>null, 'link'=>null, 'img_path'=>null];
+            $student->update($update);
+    
+            return back()->with('success', "Operation complete");
+        } catch (\Throwable $th) {
+            //throw $th;
+            session()->flash('error', "F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
+            return back();
+        }
     }
 
     public function __construct()

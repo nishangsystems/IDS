@@ -96,8 +96,13 @@ $user = $user == null ? auth()->user() : $user;
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-12 py-3 d-flex justify-content-center">
-                    @if($user->status != 0)
-                        <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem; border-radius: 0.6rem;" src="{{ $user->link }}">
+                    @if($user->photo != 0)
+                        <div class="d-flex justify-content-end col-12">
+                            <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem; border-radius: 0.6rem;" src="{{ $user->link }}">
+                        </div>
+                        @if($user->status == 0)
+                            <span class="d-flex flex-column justify-content-end"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
+                        @endif
                     @else
                         <div class="d-flex justify-content-end col-12">
                             <img id="preview_img" class="img-responsive" style="width: 12rem; height: 12rem; border-radius: 0.6rem;">
