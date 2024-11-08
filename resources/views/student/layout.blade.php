@@ -106,8 +106,8 @@
     </div>
 </div>
 
-<div id="navbar" class="navbar navbar-default  ace-save-state" style="background-color: {{$bg1}};">
-    <div class="navbar-container w-100 ace-save-state" id="navbar-container">
+<div id="navbar" class="navbar navbar-default  ace-save-state pb-0" style="background-color: {{$bg1}};">
+    <div class="navbar-container w-100 ace-save-state mb-0" id="navbar-container">
         <button type="button" class="navbar-toggle menu-toggler pull-left display" id="menu-toggler"
                 data-target="#sidebar">
             <span class="sr-only">Toggle sidebar</span>
@@ -141,15 +141,14 @@
                 </li>
                 
                 <li class="light-blue dropdown-modal">
-                    <a data-toggle="dropdown" href="#" class="dropdown-toggle" id="bg_primary_2" style="background-color: {{$bg2}};">
-                        <img class="nav-user-photo" src="{{asset('assets/images/avatars/user.jpg')}}"
-                             alt="Jason's Photo"/>
-                        <span>
-						<small>Welcome</small>
-                         {{auth('student')->user()->name}}
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle d-flex pt-2" id="bg_primary_2" style="background-color: {{$bg2}}; text-decoration:none;">
+                        <img class="nav-user-photo" src="{{asset('assets/images/avatars/user.jpg')}}" alt="Jason's Photo" style="width: 3rem; height: 3rem;"/>
+                        <span class="d-none d-md-flex">
+                            <small>Welcome</small>
+                             {{auth('student')->user()->name}}
 						</span>
 
-                        <i class="ace-icon fa fa-caret-down"></i>
+                        <i class="ace-icon fa fa-caret-down d-none d-md-flex"></i>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
@@ -183,6 +182,7 @@
         </div>
     </div><!-- /.navbar-container -->
 </div>
+
 <div class="main-container ace-save-state" id="main-container">
 
     <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
@@ -233,9 +233,9 @@
     <div class="main-content">
         <div class="main-content-inner">
 
-            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
+            <div class="breadcrumb ace-save-state" id="breadcrumbs" aria-label="breadcrumb">
+                <ol class="breadcrumb d-flex flex-wrap">
+                    <li >
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">Home</a>
                     </li>
@@ -243,11 +243,11 @@
                     <li class="active"> Full Name: <b style="color: #e30000">{{auth('student')->user()->name}}</b></li>
                     <li class="active text-capitalize"> {{__('text.word_matricule')}}: <b style="color: #e30000">{{auth('student')->user()->matricule}}</b></li>
 
-                </ul><!-- /.breadcrumb -->
+                </ol><!-- /.breadcrumb -->
             </div>
             <div class=" ">
                 
-                <div class="mx-5 mb-5 mt-3">
+                <div class="mx-1 mx-md-5 mb-5 mt-3">
                     @if(Session::has('success'))
                         <div class="alert alert-success fade in">
                             <strong>Success!</strong> {{Session::get('success')}}
