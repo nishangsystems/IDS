@@ -13,7 +13,7 @@ $user = $user == null ? auth()->user() : $user;
             <li>Image sample shown below</li>
         </ul>
         <div class="d-flex justify-content-end py-2">
-            <img src="{{ asset('icons/sample-half-photo.png') }}" alt="" style="width: 5.2rem; height: 5.2rem; border-radius: 0.2rem; border: 2px solid #fff">
+            <img src="{{ asset('icons/sample-half-photo.png') }}" alt="" style="width: 9.8rem; height: 9.8rem; border-radius: 0.3rem; border: 2px solid #fff">
         </div>
         <i>Failing to provide the right information is at your risk. No corrections will be made after the ID card is printed </i>
     </div>
