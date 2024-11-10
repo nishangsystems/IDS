@@ -4,9 +4,19 @@
 $user = auth('student')->user();
 $user = $user == null ? auth()->user() : $user;
 @endphp
-    {{-- <div class="text-center py-3 alert-warning h4">
-        <b>Warning:</b> You can only update your information/image once. So make sure your information is correct before updating.
-    </div> --}}
+    <div class="px-3 py-3 alert alert-warning h4 rounded border border-warning">
+        <b>Warning:</b> <br> 
+        <ul style="list-style-type: disc;">
+            <li>Half photos only are allowed.</li>
+            <li>Your half photo must be taken in school uniform</li>
+            <li>Cross-check the form to ensure that your information is correct</li>
+            <li>Image sample shown below</li>
+        </ul>
+        <div class="d-flex justify-content-end py-2">
+            <img src="{{ asset('icons/sample-half-photo.png') }}" alt="" style="width: 5.2rem; height: 5.2rem; border-radius: 0.2rem; border: 2px solid #fff">
+        </div>
+        <i>Failing to provide the right information is at your risk. No corrections will be made after the ID card is printed </i>
+    </div>
     <div class="d-flex justify-content-center justify-items-center align-items-middle mx-0">
         <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
             @csrf

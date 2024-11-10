@@ -9,6 +9,7 @@
 /storage/app/files/*.jpg
 /storage/app/files/*.jpeg
 /storage/app/files/*.png
+/public/icons/sample-half-photo.png
 /vendor
 /files
 /bg_image
