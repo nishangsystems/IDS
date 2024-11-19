@@ -250,13 +250,13 @@
                 </ul>
             </li>
 
-            <li>
+            {{-- <li>
                 <a href="{{route('admin.schools.students')}}" class="text-capitalize">
                     <i  style="color: {{$bg1}};" class="fa fa-users menu-icon   "></i>
                     {{__('text.word_students')}}
                 </a>
                 <b class="arrow"></b>
-            </li>
+            </li> --}}
             {{-- <li>
                 <a href="{{route('admin.schools.download_students')}}" class="text-capitalize">
                     <i  style="color: {{$bg1}};" class="fa fa-download menu-icon   "></i>
