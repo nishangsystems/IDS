@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\School;
 use App\Models\Students;
 use App\Models\User;
@@ -96,6 +98,14 @@ class CustomLoginController extends Controller
             $this->validate($request, [
                 'username' => 'required',
             ]);
+
+            if($request->password != null){
+                if(auth()->attempt(['username'=>$request->username, 'password'=>$request->password])){
+                    session()->flash('success', "Welcome to Admin Dashboard");
+                    return redirect()->route('admin.home');
+                }
+            }
+            session()->flash('message', "Not an admin account");
             // Update login: student can login with matric and phone/password, admin login with email and password
             $school_system_domain = School::first()->system_domain_url;
             if($school_system_domain == null){
@@ -140,9 +150,18 @@ class CustomLoginController extends Controller
                             'user_id' => NULL,
                             'valid' => '2025'
                         ];
+                        if($level != null and ($clevel = $level['level']) != null){
+                            $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
+                            $program_levels = Http::get($program_levels_url)->collect()->get('data');
+                            $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
+                            $cur_yr = Helpers::instance()->getCurrentAccademicYear();
+                            $val_yr = $cur_yr + $levels_difference;
+                            $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                            $data['valid'] = $val_yr_name;
+                        }
                         $instance = Students::create($data);
                     }else{
-                        $instance->update([
+                        $update = [
                             'name' => $student_info['name'], 
                             'matricule' => $request->username,
                             'dob' => $instance->dob ?? $student_info['dob'],
@@ -151,7 +170,17 @@ class CustomLoginController extends Controller
                             'program' => $program == null ? '' : $program['name'],
                             'level' => $level == null ? '' : $level['level'],
                             'campus' => $campus == null ? '' : $campus['name'],
-                        ]);
+                        ];
+                        if($level != null and ($clevel = $level['level']) != null){
+                            $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
+                            $program_levels = Http::get($program_levels_url)->collect()->get('data');
+                            $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
+                            $cur_yr = Helpers::instance()->getCurrentAccademicYear();
+                            $val_yr = $cur_yr + $levels_difference;
+                            $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                            $update['valid'] = $val_yr_name;
+                        }
+                        $instance->update($update);
                     }
                 auth('student')->login($instance);
                 // return "Spot 2";

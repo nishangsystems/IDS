@@ -122,7 +122,7 @@ class HomeController  extends Controller
 
     public function import_students()
     {
-        $data['title'] = "Import Students";
+        $data['title'] = "Upload Printed Student IDs";
         return view('admin.students.import', $data);
     }
 
@@ -142,9 +142,17 @@ class HomeController  extends Controller
     
             $file_data = [];
             while(($row = fgetcsv($fstream, 1000, ',')) != null){
-                $file_data[] = ['name'=>$row[0], 'matric'=>$row[1], 'dob'=>$row[2], 'pob'=>$row[3], 'level'=>$row[4], 'program'=>$row[5], 'gender'=>$row[6], 'nationality'=>$row[7], 'campus'=>$row[8]??0,'created_at'=>date('Y-m-d H:i:s', time()), 'updated_at'=>date('Y-m-d H:i:s', time()), 'password'=>Hash::make('12345678')];
+                try {
+                    //code...
+                    $data = ['name'=>$row[0], 'matric'=>$row[1]];
+                    if(($instance = Students::where($data)->first()) != null){
+                        $instance->printed_at = now();
+                        $instance->save();
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
-            Students::insert($file_data);
             fclose($fstream);
             unlink("$path/$fname");
             return back()->with('success', "Done");
@@ -167,25 +175,46 @@ class HomeController  extends Controller
             return back()->with('error', $validator->errors()->first())->withInput();
         }
 
+        // dd($request->all());
         $path = public_path('uploads');
         $fname = 'f__'.time().'students'.random_int(1000, 9999).'.csv';
-        
-        
 
-        $students = Students::whereNotNull('img_url')->get()->filter(function($row)use($request){
-            return Carbon::parse($request->start_date)->isBefore(Carbon::parse($row->updated_at)) && Carbon::parse($request->end_date)->isAfter(Carbon::parse($row->updated_at));
-        });
+        $downloaded_file_name = "ID_data-From_".now()->parse($request->start_date)->format('Y-m-d').'_to_'.now()->parse($request->end_date)->format('Y-m-d').'.csv';
+        $downloaded_zip_name = "ID_data-From_".now()->parse($request->start_date)->format('Y-m-d').'_to_'.now()->parse($request->end_date)->format('Y-m-d').'.zip';
         
+        $students = Students::whereNotNull('photo')->whereNotNull('img_path')->whereNull('downloaded_at')->whereDate('updated_at', '>=', $request->start_date)->whereDate('updated_at', '<=', $request->end_date)->get();
+        // dd($students);
         $fstream = fopen("$path/$fname", 'x');
-
-        $images = $students->pluck('img_url');
+        fputcsv(
+            $fstream, [
+                'NAME', 'MATRICULE', 'DoB', 'PoB', 'LEVEL', 'PROGRAM', 'GENDER', 'NATIONALITY', 'CAMPUS', 'IMAGE', 'VALIDITY', 'IMAGE_PATH'
+                ]
+        );
         foreach($students as $stud){
             fputcsv(
-                $fstream, 
-                ['name'=>$stud->name, 'matric'=>$stud->matric, 'dob'=>$stud->dob->format('d/m/Y'), 'pob'=>$stud->pob, 'level'=>$stud->level, 'program'=>$stud->program, 'gender'=>$stud->gender, 'nationality'=>$stud->nationality, 'campus'=>$stud->campus, 'imgage'=>$stud->img_url]
+                $fstream, [
+                    'name'=>$stud->name, 
+                    'matric'=>$stud->matric, 
+                    'dob'=>$stud->dob->format('d/m/Y'), 
+                    'pob'=>$stud->pob, 
+                    'level'=>$stud->level, 
+                    'program'=>$stud->program, 
+                    'gender'=>$stud->gender, 
+                    'nationality'=>$stud->nationality, 
+                    'campus'=>$stud->campus, 
+                    'image'=>$stud->photo, 
+                    'validity'=>$stud->valid,
+                    'image_path'=>$stud->img_path
+                    ]
             );
         }
         fclose($fstream);
+        
+
+        
+
+        if($request->with_photos != 'YES')
+            return response()->download("$path/$fname", $downloaded_file_name)->deleteFileAfterSend(true);
 
         $zip = new ZipArchive();
         $zip_name = '__'.time().'.zip';
@@ -196,21 +225,18 @@ class HomeController  extends Controller
         { 
             return back()->with('error', "* Sorry ZIP creation failed at this time");
         }
-        $zip->addFile("$path/$fname");
-        foreach($images as $file)
+        $zip->addFile("$path/$fname", $downloaded_file_name);
+        foreach($students as $stud)
         { 
-            $zip->addFile($files_folder.$file); // Adding files into zip
+            $zip->addFile($stud->img_path.'/'.$stud->photo, $stud->photo); // Adding files into zip
         }
         $zip->close();
 
         if(file_exists($zip_name))
         {
             // push to download the zip
-            header('Content-type: application/zip');
-            header('Content-Disposition: attachment; filename="'.$zip_name.'"');
-            readfile($zip_name);
-            // remove zip file is exists in temp path
-            unlink($zip_name);
+            $headers = ['Content-type'=>'application/zip', 'Content-Disposition'=>'attachment; filename="'.$zip_name.'"'];
+            return response()->download($zip_name, $downloaded_zip_name, $headers)->deleteFileAfterSend(true);
         }
     }
 }

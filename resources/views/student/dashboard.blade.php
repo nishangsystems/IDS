@@ -7,7 +7,7 @@ $user = $user == null ? auth()->user() : $user;
     <div class="px-3 py-3 alert alert-warning h4 rounded border border-warning">
         <b>Warning:</b> <br> 
         <ul style="list-style-type: disc;">
-            <li>Half photos only are allowed.</li>
+            <li>Half photos only are allowed, from chest level upwards.</li>
             <li>Your half photo must be taken in school uniform</li>
             <li>Cross-check the form to ensure that your information is correct</li>
             <li>Image sample shown below</li>
