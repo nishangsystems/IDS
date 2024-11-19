@@ -987,5 +987,6 @@ return [
     'word_schools'=>'schools',
     'word_photo'=>'photo',
     'word_nationality'=>'nationality',
+    'word_validity'=>'validity',
     ''
 ];

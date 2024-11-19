@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController as ControllersHomeController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -47,6 +48,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::post('students/download', [HomeController::class, 'download_students_save']);
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
+
+    Route::get('reset_student_data{id}', [HomeController::class, 'reset_student_data'])->name('reset_student_data');
 });
 
 
@@ -63,7 +66,7 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->group(funct
 
 Route::get('search/students/boarders/{name}', 'HomeController@getStudentBoarders')->name('getStudentBoarder');
 
-
+Route::get('search_students', [ControllersHomeController::class, 'search_students'])->name('search_students');
 Route::get('getColor/{label}', [HomeController::class, 'getColor'])->name('getColor');
 
 

@@ -56,4 +56,9 @@ class HomeController extends Controller
         return $color == null ? null : $color->value;
     }
 
+    public function search_students(Request $request){
+        $key = $request->key;
+        return response()->json(Students::where('name', 'LIKE', '%'.$key.'%')->orWhere('matricule', 'LIKE', '%'.$key.'%')->get());
+    }
+
 }
