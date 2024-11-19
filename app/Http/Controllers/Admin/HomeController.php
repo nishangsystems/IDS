@@ -182,7 +182,7 @@ class HomeController  extends Controller
         $downloaded_file_name = "ID_data-From_".now()->parse($request->start_date)->format('Y-m-d').'_to_'.now()->parse($request->end_date)->format('Y-m-d').'.csv';
         $downloaded_zip_name = "ID_data-From_".now()->parse($request->start_date)->format('Y-m-d').'_to_'.now()->parse($request->end_date)->format('Y-m-d').'.zip';
         
-        $students = Students::whereNotNull('photo')->whereNotNull('img_path')->whereNull('downloaded_at')->whereDate('updated_at', '>=', $request->start_date)->whereDate('updated_at', '<=', $request->end_date)->get();
+        $students = Students::whereNotNull('photo')->whereNotNull('img_path')->whereDate('updated_at', '>=', $request->start_date)->whereDate('updated_at', '<=', $request->end_date)->get();
         // dd($students);
         $fstream = fopen("$path/$fname", 'x');
         fputcsv(
