@@ -16,9 +16,10 @@ class Students extends Authenticatable
 
     protected $fillable = [
         'name', 'matricule', 'dob', 'pob', 'sex', 'nationality', 'program', 'level',
-        'photo', 'campus', 'status', 'date', 'img_path', 'link', 'user_id', 'valid'
+        'photo', 'campus', 'status', 'date', 'img_path', 'link', 'user_id', 'valid',
+        'downloaded_at', 'printed_at'
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'dob'];
+    protected $dates = ['created_at', 'updated_at', 'dob', 'downloaded_at', 'printed_at'];
 
 }
