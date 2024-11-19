@@ -194,7 +194,7 @@ class HomeController  extends Controller
             fputcsv(
                 $fstream, [
                     'name'=>$stud->name, 
-                    'matric'=>$stud->matric, 
+                    'matric'=>$stud->matricule, 
                     'dob'=>$stud->dob->format('d/m/Y'), 
                     'pob'=>$stud->pob, 
                     'level'=>$stud->level, 
@@ -210,8 +210,9 @@ class HomeController  extends Controller
         }
         fclose($fstream);
         
-
-        
+        $students->each(function($rec){
+            $rec->update(['downloaded_at'=>now()]);
+        });
 
         if($request->with_photos != 'YES')
             return response()->download("$path/$fname", $downloaded_file_name)->deleteFileAfterSend(true);
