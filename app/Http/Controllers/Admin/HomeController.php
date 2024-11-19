@@ -240,4 +240,13 @@ class HomeController  extends Controller
             return response()->download($zip_name, $downloaded_zip_name, $headers)->deleteFileAfterSend(true);
         }
     }
+
+    public function reset_student_data(Request $request, $record_id) {
+        $student = Students::find($record_id);
+        $student->updated_at = null;
+        $student->downloaded_at = null;
+        $student->printed_at = null;
+        $student->save();
+        return back()->with('success', "Operation complete");
+    }
 }

@@ -6,19 +6,7 @@
 @endphp
 
 <div class="col-sm-12">
-    <div class="col-lg-12">
-        <form method="get">
-            <div class="input-group-merge d-flex rounded border border-dark my-3">
-                <select class="form-control col-sm-10" name="year">
-                    <option></option>
-                    @foreach (\App\Models\Batch::all() as $batch)
-                        <option value="{{$batch->id}}" {{$batch->id == $year ? 'selected' : ''}}>{{$batch->name}}</option>
-                    @endforeach
-                </select>
-                <input type="submit" value="{{__('text.word_get')}}" class="btn btn-sm btn-dark text-capitalize col-sm-2 text-center">
-            </div>
-        </form>
-    </div>
+    
     <div class=" my-3">
         <input class="form-control" id="search_field" placeholder="search by name or matricule">
     </div>
@@ -29,8 +17,9 @@
                     <tr class="text-capitalize">
                         <th>#</th>
                         <th>{{__('text.word_name')}}</th>
-                        <th>{{__('text.word_email')}}</th>
-                        <th>{{__('text.word_phone')}}</th>
+                        <th>{{__('text.word_matricule')}}</th>
+                        <th>{{__('text.word_program')}}</th>
+                        <th>{{__('text.word_validity')}}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -49,7 +38,7 @@
 <script>
     $('#search_field').on('keyup', function() {
         let value = $(this).val();
-        url = '';
+        url = "{{route('search_students')}}";
         // console.log(url);
         $.ajax({
             type: 'GET',
@@ -67,18 +56,15 @@
                     <tr>
                         <td>${k++}</td>
                         <td>${element.name}</td>
-                        <td>${element.email}</td>
-                        <td>${element.phone}</td>
+                        <td>${element.matricule}</td>
+                        <td>${element.program}</td>
+                        <td>${element.valid}</td>
                         <td class="d-flex justify-content-end  align-items-start text-capitalize">
-                            <a class="btn btn-sm btn-primary m-1" href="${element.show_link}"><i class="fa fa-info-circle"> {{__('text.word_view')}}</i></a> |
-                            <a class="btn btn-sm btn-success m-1" href="${element.edit_link}"><i class="fa fa-edit"> {{__('text.word_edit')}}</i></a>|
-                            
-                            <a class="btn btn-sm btn-warning m-1" onclick="confirm('Are you sure you want to reset pasword for ${element.name}?') ? $('#id_${element.id}').submit() : null"><i class="fa fa-edit"> {{__('text.reset_password')}}</i></a>|
-                            <form action="${element.password_reset}" method="post" id="id_${element.id}" class="hidden">@csrf</form>
+                            <a class="btn btn-sm btn-primary m-1" href="{{route('admin.reset_student_data', '__STID__')}}"><i class="fa fa-info-circle text-capitalize"> {{__('text.word_reset')}}</i></a> |                            
                         </td>
                     </tr>
-                    `.replace('__SID__', element.id).replace('__ACTIVE__', element.active);
-                });
+                    `.replace('__STID__', element.id);
+                }); 
                 $('#table_body').html(html);
             },
             error: function(e) {
