@@ -117,12 +117,14 @@ $user = $user == null ? auth()->user() : $user;
                     @endif
                 </div> 
                 <dov class="col-12 px-1 d-flex justify-content-end py-2 border-top">
-                    @if($user->photo != null)
-                        @if($user->status == 0)
-                            <span class="d-flex flex-column justify-content-end rounded"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
+                    @if($user->downloaded_at == null)
+                        @if($user->photo != null)
+                            @if($user->status == 0)
+                                <span class="d-flex flex-column justify-content-end rounded"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
+                            @endif
+                        @else
+                            <input class="btn btn-md btn-primary rounded" value="UPDATE" type="submit">
                         @endif
-                    @else
-                        <input class="btn btn-md btn-primary rounded" value="UPDATE" type="submit">
                     @endif
                 </dov>
             </div>
