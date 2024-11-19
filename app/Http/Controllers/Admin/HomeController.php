@@ -199,7 +199,7 @@ class HomeController  extends Controller
                     'pob'=>$stud->pob, 
                     'level'=>$stud->level, 
                     'program'=>$stud->program, 
-                    'gender'=>$stud->gender, 
+                    'gender'=>$stud->sex, 
                     'nationality'=>$stud->nationality, 
                     'campus'=>$stud->campus, 
                     'image'=>$stud->photo, 
