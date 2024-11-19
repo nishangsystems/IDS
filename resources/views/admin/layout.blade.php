@@ -239,7 +239,7 @@
 
                 <ul class="submenu">
                     <li>
-                        <a href="#" class="text-capitalize">
+                        <a href="{{route('admin.setayear')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.set_academic_year')}}
                         </a>
