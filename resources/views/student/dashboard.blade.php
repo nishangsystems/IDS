@@ -27,66 +27,66 @@ $user = $user == null ? auth()->user() : $user;
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 text-center text-uppercase text-primary border-b"><u class="h4"><b>Allowed Photo Samples</b></u></div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Half photo only, from chest level upwards</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">half photo must be taken in school uniform</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Photo must be taken in plane background, preferrably white.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Face must be upright</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 text-center text-uppercase text-danger border-b"><u class="h4"><b>Disallowed Photo Samples</b></u></div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-bad-photo-1.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-bad-photo-1.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text text-warning">Full photo not allowed</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-bad-photo-2.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-bad-photo-2.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text text-warning">Half photo not from chest level upwords</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text text-warning">Mixed color background not allowed</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-bad-photo-4.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <img src="{{ asset('icons/sample-bad-photo-4.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text text-warning">Photo/Image not upright.</p>
                                 </div>
