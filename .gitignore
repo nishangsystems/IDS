@@ -9,10 +9,12 @@
 /storage/app/files/*.jpg
 /storage/app/files/*.jpeg
 /storage/app/files/*.png
+/public/icons/sample-half-photo.png
 /public/icons/sample-half-photo-1.png
 /public/icons/sample-half-photo-2.png
 /public/icons/sample-half-photo-3.png
 /public/icons/sample-half-photo-4.png
+/public/icons/sample-bad-photo.png
 /public/icons/sample-bad-photo-1.png
 /public/icons/sample-bad-photo-2.png
 /public/icons/sample-bad-photo-3.png
