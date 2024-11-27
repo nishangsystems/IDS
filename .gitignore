@@ -10,6 +10,10 @@
 /storage/app/files/*.jpeg
 /storage/app/files/*.png
 /public/icons/sample-half-photo.png
+/public/icons/sample-bad-photo-1.png
+/public/icons/sample-bad-photo-2.png
+/public/icons/sample-bad-photo-3.png
+/public/icons/sample-bad-photo-4.png
 /vendor
 /files
 /bg_image

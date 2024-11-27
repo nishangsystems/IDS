@@ -4,7 +4,7 @@
 $user = auth('student')->user();
 $user = $user == null ? auth()->user() : $user;
 @endphp
-    <div class="px-3 py-3 alert alert-warning h4 rounded border border-warning">
+    {{-- <div class="px-3 py-3 alert alert-warning h4 rounded border border-warning">
         <b>Warning:</b> <br> 
         <ul style="list-style-type: disc;">
             <li>Half photos only are allowed, from chest level upwards.</li>
@@ -16,27 +16,94 @@ $user = $user == null ? auth()->user() : $user;
             <img src="{{ asset('icons/sample-half-photo.png') }}" alt="" style="width: 9.8rem; height: 9.8rem; border-radius: 0.3rem; border: 2px solid #fff">
         </div>
         <i>Failing to provide the right information is at your risk. No corrections will be made after the ID card is printed </i>
-    </div>
+    </div> --}}
     <!-- Button trigger modal -->
-
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-            ...
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Understood</button>
-            </div>
+    {{-- <div class="modal modal-lg modal-primary" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered w-100" role="document">
+            <div class="modal-content w-100"> --}}
+                <div class="modal-header">
+                    <h3 class="modal-title text-capitalize" id="exampleModalCenterTitle"><b>Photo Upload Guide</b></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 text-center text-uppercase text-primary border-b"><u class="h4"><b>Allowed Photo Samples</b></u></div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text">Half photo only, from chest level upwards</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text">half photo must be taken in school uniform</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text">Photo must be taken in plane background, preferrably white.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text">Face must be upright</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center text-uppercase text-danger border-b"><u class="h4"><b>Disallowed Photo Samples</b></u></div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-bad-photo-1.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text text-warning">Full photo not allowed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-bad-photo-2.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text text-warning">Half photo not from chest level upwords</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text text-warning">Mixed color background not allowed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-1">
+                            <div class="card rounded border-0 shadow-sm">
+                                <img src="{{ asset('icons/sample-bad-photo-4.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                <div class="card-body px-1 py-1">
+                                    <p class="text text-warning">Photo/Image not upright.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center text-danger pt-4">
+                            <i>Failing to provide the right information is at your risk. No corrections will be made after the ID card is printed </i>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Understood</button>
+                </div> --}}
+            {{-- </div>
         </div>
-        </div>
-    </div>
+    </div> --}}
+    <hr>
     <div class="d-flex justify-content-center justify-items-center align-items-middle mx-0">
         <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
             @csrf
@@ -161,7 +228,7 @@ $user = $user == null ? auth()->user() : $user;
         }
 
         $(document).ready(()=>{
-            
+            $('#exampleModalCenter').modal('show');
         })
     </script>
 @endsection
