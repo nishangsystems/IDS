@@ -164,9 +164,9 @@ class CustomLoginController extends Controller
                         $update = [
                             'name' => $student_info['name'], 
                             'matricule' => $request->username,
-                            'dob' => $instance->dob ?? $student_info['dob'],
-                            'pob' => $instance->pob ?? $student_info['pob'],
-                            'sex' => $student_info['gender'],
+                            'dob' => $instance->dob == null ? $student_info['dob'] : $instance->dob,
+                            'pob' => $instance->pob == null ? $student_info['pob'] : $instance->pob,
+                            'sex' => $instance->sex == null ? $student_info['gender'] : $instance->sex,
                             'program' => $program == null ? '' : $program['name'],
                             'level' => $level == null ? '' : $level['level'],
                             'campus' => $campus == null ? '' : $campus['name'],

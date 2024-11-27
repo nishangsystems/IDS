@@ -58,7 +58,7 @@ class HomeController extends Controller
 
             $update['photo'] = $fname;
             $update['img_path'] = $img_path;
-            $update['link'] = asset('uploads/id_images/'.now()->format('Y-m').'/day-'.now()->format('d').'/'.$fname);
+            $update['link'] = url();
             // return 1234;
         }
         $stud->update($update);
