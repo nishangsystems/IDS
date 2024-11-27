@@ -14,9 +14,15 @@ class HomeController extends Controller
     
     public function index()
     {
+        $user = auth('student')->user();
+        $img_url = $user->img_path.'/'.$user->photo;
+        $pos = stripos($img_url, 'uploads/id_images');
+        $asset_relative_url = substr($img_url, -(strlen($img_url)-$pos));
         $data['programs'] = Students::distinct()->pluck('program')->toArray();
         $data['campuses'] = Students::distinct()->pluck('campus')->toArray();
         $data['levels'] = Students::distinct()->pluck('level')->toArray();
+        $data['img_url'] = asset($asset_relative_url);
+        // dd($data);
         return view('student.dashboard', $data);
     }
 
@@ -58,7 +64,7 @@ class HomeController extends Controller
 
             $update['photo'] = $fname;
             $update['img_path'] = $img_path;
-            $update['link'] = url();
+            $update['link'] = url('/');
             // return 1234;
         }
         $stud->update($update);
@@ -111,7 +117,7 @@ class HomeController extends Controller
                 }
             }
     
-            $update = ['photo'=>null, 'link'=>null, 'img_path'=>null];
+            $update = ['photo'=>null, 'img_path'=>null];
             $student->update($update);
     
             return back()->with('success', "Operation complete");

@@ -17,6 +17,26 @@ $user = $user == null ? auth()->user() : $user;
         </div>
         <i>Failing to provide the right information is at your risk. No corrections will be made after the ID card is printed </i>
     </div>
+    <!-- Button trigger modal -->
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Understood</button>
+            </div>
+        </div>
+        </div>
+    </div>
     <div class="d-flex justify-content-center justify-items-center align-items-middle mx-0">
         <form method="POST" action="{{ route('student.update') }}" enctype="multipart/form-data">
             @csrf
@@ -108,7 +128,7 @@ $user = $user == null ? auth()->user() : $user;
                 <div class="col-12 px-1 py-3 d-flex justify-content-center bg-dark rounded">
                     @if($user->photo != null)
                         <div class="d-flex justify-content-end col-12">
-                            <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem; border-radius: 0.6rem;" src="{{ $user->link }}">
+                            <img class="img-responsive my-3 mx-auto img-rounded" style="height: 12rem; width: 12rem; border-radius: 0.6rem;" src="{{ $img_url }}">
                         </div>
                     @else
                         <div class="d-flex justify-content-end col-12">
@@ -120,7 +140,7 @@ $user = $user == null ? auth()->user() : $user;
                     @if($user->downloaded_at == null)
                         @if($user->photo != null)
                             @if($user->status == 0)
-                                <span class="d-flex flex-column justify-content-end rounded"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.word_delete')</a></span>
+                                <span class="d-flex flex-column justify-content-end rounded"><a href="{{route('student.drop_image')}}" class="btn btn-md rounded btn-danger text-uppercase ">@lang('text.clear_and_reupload_image')</a></span>
                             @endif
                         @else
                             <input class="btn btn-md btn-primary rounded" value="UPDATE" type="submit">
@@ -139,5 +159,9 @@ $user = $user == null ? auth()->user() : $user;
             let url = URL.createObjectURL(file);
             $('#preview_img').prop('src', url);
         }
+
+        $(document).ready(()=>{
+            
+        })
     </script>
 @endsection
