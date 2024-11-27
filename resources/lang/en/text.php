@@ -989,5 +989,6 @@ return [
     'word_nationality'=>'nationality',
     'word_validity'=>'validity',
     'clear_and_reupload_image'=>"clear and re-upload image",
+    'upload_photo'=>'upload photo',
     ''
 ];
