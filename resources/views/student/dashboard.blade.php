@@ -29,7 +29,7 @@ $user = $user == null ? auth()->user() : $user;
                         <div class="col-12 text-center text-uppercase text-primary border-b"><u class="h4"><b>Allowed Photo Samples</b></u></div>
                         <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
+                                <img src="{{ asset('icons/sample-half-photo-1.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Half photo only, from chest level upwards</p>
                                 </div>
@@ -37,7 +37,7 @@ $user = $user == null ? auth()->user() : $user;
                         </div>
                         <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
+                                <img src="{{ asset('icons/sample-half-photo-2.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">half photo must be taken in school uniform</p>
                                 </div>
@@ -45,7 +45,7 @@ $user = $user == null ? auth()->user() : $user;
                         </div>
                         <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
+                                <img src="{{ asset('icons/sample-half-photo-3.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Photo must be taken in plane background, preferrably white.</p>
                                 </div>
@@ -53,7 +53,7 @@ $user = $user == null ? auth()->user() : $user;
                         </div>
                         <div class="col-sm-4 col-md-3 col-lg-3 col-xl-3 p-2">
                             <div class="card rounded border-0 shadow-sm">
-                                <img src="{{ asset('icons/sample-half-photo.png') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
+                                <img src="{{ asset('icons/sample-half-photo.png-4') }}" alt="Sample Good Image 1" class="card-img-top img-fluid img" style="height: 11rem;">
                                 <div class="card-body px-1 py-1">
                                     <p class="text">Face must be upright</p>
                                 </div>
