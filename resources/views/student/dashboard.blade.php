@@ -157,7 +157,7 @@ $user = $user == null ? auth()->user() : $user;
                     
                     <div class="col-sm-5 col-md-4 col-lg-3">
                         <div class="h4 text-center text-primary text-uppercase">sample photo</div>
-                        <img src="{{ asset('icons/sample-half-photo-1.png') }}" alt="sample allowed photo" class="img img-fluid rounded" style="height: 12rem;">
+                        <img src="{{ asset('icons/sample-half-photo.png') }}" alt="sample allowed photo" class="img img-fluid rounded" style="height: 12rem;">
                     </div>
                     <div class="col-sm-7 col-md-4 col-lg-5">
                         <ul style="list-style-type: decimal">
