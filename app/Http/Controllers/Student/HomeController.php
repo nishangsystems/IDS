@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -53,23 +54,31 @@ class HomeController extends Controller
 
         $stud = auth('student')->user();
 
-        $update = $request->all();
-        if($request->image != null){
-            $img_path = public_path('uploads/id_images/'.now()->format('Y-m')).'/day-'.now()->format('d');
-            $file = $request->file('image');
-            
-            $file_type = $file->getClientOriginalExtension();
-            $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
-            $file->move($img_path, $fname);
-
-            $update['photo'] = $fname;
-            $update['img_path'] = $img_path;
-            $update['link'] = url('/');
-            // return 1234;
+        try {
+            //code...
+            $update = $request->all();
+            if($request->image != null){
+                $img_path = public_path('uploads/id_images/'.now()->format('Y-m')).'/day-'.now()->format('d');
+                $file = $request->file('image');
+                
+                $file_type = $file->getClientOriginalExtension();
+                $fname = 'ph'.time().random_int(1000, 9999).'.'.$file_type;
+                $file->move($img_path, $fname);
+    
+                $update['photo'] = $fname;
+                $update['img_path'] = $img_path;
+                $update['link'] = url('/');
+                // return 1234;
+            }
+            $stud->update($update);
+    
+            return redirect(route('student.home'))->with('success', 'Record updated successfully');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            session()->flash('error', "F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
+            return back();
         }
-        $stud->update($update);
-
-        return redirect(route('student.home'))->with('success', 'Record updated successfully');
         
     }
 
@@ -108,6 +117,7 @@ class HomeController extends Controller
         $student = auth('student')->user();
         try {
             //code...
+            DB::beginTransaction();
             if($student->photo != null){
                 $path = $student->img_path.'/'.$student->photo;
                 if(file_exists($path)){
@@ -117,12 +127,15 @@ class HomeController extends Controller
                 }
             }
     
-            $update = ['photo'=>null, 'img_path'=>null];
-            $student->update($update);
+            $student->photo = null;
+            $student->img_path = null;
+            $student->save();
+            DB::commit();
     
             return back()->with('success', "Operation complete");
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollBack();
             session()->flash('error', "F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
             return back();
         }
