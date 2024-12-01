@@ -990,5 +990,6 @@ return [
     'word_validity'=>'validity',
     'clear_and_reupload_image'=>"clear and re-upload image",
     'upload_photo'=>'upload photo',
+    'id_printed_phrase'=>'Your ID card has already been printed. Visit the concerned office to collect.',
     ''
 ];
