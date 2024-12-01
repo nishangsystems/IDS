@@ -70,6 +70,7 @@ class HomeController extends Controller
                 $update['link'] = url('/');
                 // return 1234;
             }
+            $update['date'] = now();
             $stud->update($update);
     
             return redirect(route('student.home'))->with('success', 'Record updated successfully');
