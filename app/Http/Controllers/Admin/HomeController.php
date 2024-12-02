@@ -140,17 +140,16 @@ class HomeController  extends Controller
             $file->move($path, $fname);
             $fstream = fopen("$path/$fname", 'r');
     
-            $file_data = [];
             while(($row = fgetcsv($fstream, 1000, ',')) != null){
                 try {
                     //code...
-                    $data = ['name'=>$row[0], 'matric'=>$row[1]];
+                    $data = ['name'=>$row[0], 'matricule'=>$row[1]];
                     if(($instance = Students::where($data)->first()) != null){
                         $instance->printed_at = now();
                         $instance->save();
                     }
                 } catch (\Throwable $th) {
-                    //throw $th;
+                    // throw $th;
                 }
             }
             fclose($fstream);
