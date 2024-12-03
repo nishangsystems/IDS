@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use MongoDB\Driver\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 use ZipArchive;
 use function PHPUnit\Framework\returnSelf;
@@ -247,5 +247,43 @@ class HomeController  extends Controller
         $student->printed_at = null;
         $student->save();
         return back()->with('success', "Operation complete");
+    }
+
+    public function printed_ids_index(){
+        $data['title'] = "Download Student List for Printed IDs";
+        return view('admin.students.printed_list', $data);
+    }
+
+    public function download_printed_ids(Request $request){
+        try {
+            $request->validate(['start_date'=>'required|date', 'end_date'=>'required|date']);
+            $start_date = now()->parse($request->start_date)->hour(00)->minute(00)->second(00);
+            $end_date = now()->parse($request->end_date)->hour(23)->minute(59)->second(59);
+            $data = Students::where('printed_at', '>=', $start_date)->where('printed_at', '<=', $end_date)->orderBy('name')->get();
+            
+            $fname = "printed_students{time()}.csv";
+            $file_url = storage_path('app/public/'.$fname);
+            if(!file_exists($file_url)){Storage::disk('public')->put($fname, ' ');}
+            $file_stream = fopen($file_url, 'w');
+            fputcsv($file_stream, ['MATRICIULE', 'NAME']);
+            // write to file
+            foreach($data->groupBy('program') as $program => $program_data){
+                $rec = ["{$program}>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<{$program_data->count()}"];
+                fputcsv($file_stream, [' ', ' ']);
+                fputcsv($file_stream, $rec);
+                fputcsv($file_stream, ['============================', '==============================']);
+                foreach($program_data as $record){
+                    fputcsv($file_stream, [$record->matricule, $record->name]);
+                }
+            }
+    
+            fclose($file_stream);
+            return response()->download($file_url, "PRINTED-ID-CARDS-FROM_{$start_date->format('Y-m-d')}_TO_{$end_date->format('Y-m-d')}.csv")->deleteFileAfterSend(true);
+            //code...
+        } catch (\Throwable $th) {
+            throw $th;
+            session()->flash('error', "Error encountered. F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
+            return back();
+        }
     }
 }

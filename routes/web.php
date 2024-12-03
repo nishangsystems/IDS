@@ -46,6 +46,10 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::post('students/import', [HomeController::class, 'save_students']);
     Route::get('students/download', [HomeController::class, 'download_students'])->name('schools.download_students');
     Route::post('students/download', [HomeController::class, 'download_students_save']);
+
+    Route::get('students/printed', [HomeController::class, 'printed_ids_index'])->name('printed_ids');
+    Route::post('students/printed', [HomeController::class, 'download_printed_ids']);
+
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 
