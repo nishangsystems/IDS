@@ -259,7 +259,7 @@ class HomeController  extends Controller
             $request->validate(['start_date'=>'required|date', 'end_date'=>'required|date']);
             $start_date = now()->parse($request->start_date)->hour(00)->minute(00)->second(00);
             $end_date = now()->parse($request->end_date)->hour(23)->minute(59)->second(59);
-            $data = Students::where('printed_at', '>=', $start_date)->where('printed_at', '<=', $end_date)->orderBy('name')->get();
+            $data = Students::whereDate('printed_at', '>=', $request->start_date)->whereDate('printed_at', '<=', $request->end_date)->orderBy('name')->get();
             
             $fname = "printed_students{time()}.csv";
             $file_url = storage_path('app/public/'.$fname);
