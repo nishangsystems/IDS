@@ -278,6 +278,13 @@
                 </a>
                 <b class="arrow"></b>
             </li>
+            <li>
+                <a href="{{route('admin.printed_ids')}}" class="text-capitalize">
+                    <i  style="color: {{$bg1}};" class="fa fa-print menu-icon   "></i>
+                    {{__('text.word_printed')}}
+                </a>
+                <b class="arrow"></b>
+            </li>
 
             <li>
                 <a href="{{route('admin.reset_password')}}" class="text-capitalize">
