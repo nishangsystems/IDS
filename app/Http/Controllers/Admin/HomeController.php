@@ -263,7 +263,7 @@ class HomeController  extends Controller
             
             $fname = "printed_students{time()}.csv";
             $file_url = storage_path('app/public/'.$fname);
-            if(!file_exists($file_url)){Storage::disk('public')->put($fname, ' ');}
+            // if(!file_exists($file_url)){Storage::disk('public')->put($fname, ' ');}
             $file_stream = fopen($file_url, 'w');
             fputcsv($file_stream, ['MATRICIULE', 'NAME']);
             // write to file
