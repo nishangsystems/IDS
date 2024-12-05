@@ -242,6 +242,8 @@ class HomeController  extends Controller
 
     public function reset_student_data(Request $request, $record_id) {
         $student = Students::find($record_id);
+        $image_path = $student->img_path.'/'.$student->photo;
+        if(file_exists($image_path)){unlink($image_path);}
         $student->updated_at = null;
         $student->downloaded_at = null;
         $student->printed_at = null;
@@ -278,6 +280,7 @@ class HomeController  extends Controller
             }
     
             fclose($file_stream);
+            
             return response()->download($file_url, "PRINTED-ID-CARDS-FROM_{$start_date->format('Y-m-d')}_TO_{$end_date->format('Y-m-d')}.csv")->deleteFileAfterSend(true);
             //code...
         } catch (\Throwable $th) {
