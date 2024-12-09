@@ -105,11 +105,11 @@ class CustomLoginController extends Controller
                     return redirect()->route('admin.home');
                 }
             }
-            session()->flash('message', "Not an admin account");
+            // session()->flash('message', "Not an admin account");
             // Update login: student can login with matric and phone/password, admin login with email and password
             $school_system_domain = School::first()->system_domain_url;
             if($school_system_domain == null){
-                session()->flash('error', "No url is configured for the school system domain. Configure url and try again.");
+                session()->flash('error', "No url is configured for the school system domain. Notify the Technology office concerned.");
                 return back()->withInput();
             }
             $url = $school_system_domain.'/api/get_student_with_matric?matric='.$request->username;
@@ -164,7 +164,7 @@ class CustomLoginController extends Controller
                         $update = [
                             'name' => $student_info['name'], 
                             'matricule' => $request->username,
-                            'dob' => $instance->dob == null ? $student_info['dob'] : $instance->dob,
+                            // 'dob' => $instance->dob == null ? $student_info['dob'] : $instance->dob,
                             'pob' => $instance->pob == null ? $student_info['pob'] : $instance->pob,
                             'sex' => $instance->sex == null ? $student_info['gender'] : $instance->sex,
                             'program' => $program == null ? '' : $program['name'],
