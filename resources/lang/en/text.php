@@ -992,5 +992,6 @@ return [
     'upload_photo'=>'upload photo',
     'id_printed_phrase'=>'Your ID card has already been printed. Visit the concerned office to collect.',
     'word_printed'=>'printed',
+    'word_statistics'=>'statistics',
     ''
 ];

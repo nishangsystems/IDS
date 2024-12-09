@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\admin\StatsController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
@@ -49,6 +50,10 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::get('students/printed', [HomeController::class, 'printed_ids_index'])->name('printed_ids');
     Route::post('students/printed', [HomeController::class, 'download_printed_ids']);
+
+    Route::prefix('stats')->name('stats.')->group(function(){
+        Route::get('index', [StatsController::class, 'index'])->name('index');
+    });
 
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
