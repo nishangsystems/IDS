@@ -152,8 +152,8 @@ $user = $user == null ? auth()->user() : $user;
                         <div class="">
                             <select class="form-control rounded" required name="nationality">
                                 <option></option>
-                                @foreach (config('all_countries.list') as $country)
-                                    <option value="{{ $country['name'] }}" {{ old('nationality', $user->nationality??null) == $country['name'] ? 'selected' : '' }}>{{ $country['name'] }}</option>
+                                @foreach (config('nationalities') as $country)
+                                    <option value="{{ $country['nationality'] }}" {{ old('nationality', $user->nationality??null) == $country['nationality'] ? 'selected' : '' }}>{{ $country['nationality'] }}</option>
                                 @endforeach
                             </select>
                         </div>
