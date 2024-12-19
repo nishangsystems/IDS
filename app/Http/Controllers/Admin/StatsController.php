@@ -19,16 +19,18 @@ class StatsController extends Controller
         $response = Http::get($endpoint)->collect('data');
         // dd($response);
         $data['title'] = "Per Campus Per Program Statistics";
-        $data['stats'] = $response->filter(function($rec){return $rec != null;})->map(function($rec){
-            return Students::whereNotNull('printed_at')->where(['program'=>$rec['name'], 'campus'=>$rec['campus']])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->get()
-                ->each(function($elm)use($rec){$elm->admitted_students = $rec['admitted_students'];});
-        });
-        // $data['stats'] = Students::whereNotNull('printed_at')
-        //     ->select([
-        //         'id', 'campus', 'program', DB::raw("COUNT(*) as size")
-        //     ])
-        //     ->groupBy(['campus', 'program'])->orderBy('program')->get();
-        dd($data);
+        $data['stats'] = $response->map(function($rec){
+            if($rec == null){return;}
+            $rec['program'] = $rec['name'];
+            $rec['size'] = 0;
+            // dd($rec);
+            $row = Students::whereNotNull('printed_at')->where(['program'=>$rec['name'], 'campus'=>$rec['campus']])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->first();
+            if($row != null){
+                $rec['size'] = $row->size;
+            }
+            return $rec;
+        })->filter(function($rec){return $rec != null;});
+        
         return view('admin.stats.index', $data);
     }
 }

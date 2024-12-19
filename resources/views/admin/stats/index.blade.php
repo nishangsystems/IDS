@@ -15,7 +15,9 @@
                 <tbody>
                     @foreach ($stats->groupBy('campus') as $campus => $campus_stats)
                         <tr class="">
-                            <th class="text-dark h4 text-capitalize border border-black" colspan="3">{!! $campus !!}</th>
+                            <th class="text-dark h4 text-capitalize border border-black" colspan="2">{{$campus}}</th>
+                            <th class="text-dark h4 text-capitalize border border-black">{{number_format(collect($campus_stats)->sum('admitted_students'))}}</th>
+                            <th class="text-dark h4 text-capitalize border border-black">{{number_format(collect($campus_stats)->sum('size'))}}</th>
                         </tr>
                         @php
                             $counter = 1;
@@ -23,9 +25,9 @@
                         @foreach ($campus_stats as $stat_record)
                             <tr>
                                 <td class="border-left">{{$counter++}}</td>
-                                <td class="border-left">{{$stat_record->program}}</td>
-                                <td class="border-left border-right">{{$stat_record->admitted_students}}</td>
-                                <td class="border-left border-right">{{$stat_record->size}}</td>
+                                <td class="border-left">{{$stat_record['program']}}</td>
+                                <td class="border-left border-right">{{$stat_record['admitted_students']}}</td>
+                                <td class="border-left border-right">{{$stat_record['size']}}</td>
                             </tr>
                         @endforeach
                     @endforeach
