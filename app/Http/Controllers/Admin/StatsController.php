@@ -33,4 +33,19 @@ class StatsController extends Controller
         
         return view('admin.stats.index', $data);
     }
+
+    public function pending_upload(Request $request){
+        $school_system_domain = School::first()->system_domain_url;
+        $endpoint = "{$school_system_domain}/api/admitted_students";
+        $response = Http::get($endpoint)->collect('data');
+
+        // dd($response);
+        $uploaded = Students::whereNotNull('photo')->pluck('matricule')->toArray();
+        $pending = $response->filter(function($record)use($uploaded){
+            return !in_array($record['matric'], $uploaded);
+        })->sortBy('program');
+        $data['title'] = "Data Upload Statistics";
+        $data['students'] = $pending;
+        return view('admin.stats.pending_uploads', $data);
+    }
 }
