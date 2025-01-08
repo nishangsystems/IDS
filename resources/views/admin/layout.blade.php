@@ -269,6 +269,14 @@
 
                         <b class="arrow"></b>
                     </li>
+                    <li>
+                        <a href="{{route('admin.stats.data_upload')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.data_upload')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
                     
                 </ul>
             </li>

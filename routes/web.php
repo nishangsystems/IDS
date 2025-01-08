@@ -53,6 +53,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::prefix('stats')->name('stats.')->group(function(){
         Route::get('index', [StatsController::class, 'index'])->name('index');
+        Route::get('data_upload', [StatsController::class, 'pending_upload'])->name('data_upload');
     });
 
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
