@@ -994,5 +994,6 @@ return [
     'word_printed'=>'printed',
     'word_statistics'=>'statistics',
     'data_upload'=>'data upload',
+    'students_without_cards'=>'students without cards',
     ''
 ];
