@@ -988,7 +988,7 @@ return [
     'word_photo'=>'photo',
     'word_nationality'=>'nationality',
     'word_validity'=>'validity',
-    'clear_and_reupload_image'=>"clear and re-upload image",
+    'clear_and_reupload_image'=>"your photo is successfully uploaded",
     'upload_photo'=>'upload photo',
     'id_printed_phrase'=>'Your ID card has already been printed. Visit the concerned office to collect.',
     'word_printed'=>'printed',
