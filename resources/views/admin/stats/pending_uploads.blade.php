@@ -1,5 +1,34 @@
 @extends('admin.layout')
 @section('section')
+    <div class="container-fluid d-flex justify-content-end py-2 mb-4">
+        <button class="btn btn-primary btn-sm rounded text-capitalize" onclick="printData('#program_stats_printable')">@lang('text.print_all_program_stats')</button>
+    </div>
+    <div class="d-none">
+        <div id="program_stats_printable">
+            <table class="border">
+                <thead class="text-capitalize border-bottom border-primary">
+                    <tr class="border-bottom border-primary"><th class="text-center h4 text-uppercase text-primary" colspan="3"><b>@lang('text.program_id_card_pending_data_upload_statistics')</b></th></tr>
+                    <tr class="border-bottom border-primary">
+                        <th>@lang('text.sn')</th>
+                        <th class="border-left border-dark">@lang('text.word_program')</th>
+                        <th class="border-left border-dark">@lang('text.students_without_cards')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $xcount = 1;
+                    @endphp
+                    @foreach ($students->groupBy('program') as $prog => $program_group)
+                        <tr class="border-bottom border-dark">
+                            <td>{{$xcount++}}</td>
+                            <td class="border-left border-dark">{{$prog}}</td>
+                            <td class="border-left border-dark">{{$program_group->count()}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="container-fluid">
         <table class="table-stripped border">
             <thead class="text-capitalize border-bottom">
