@@ -58,17 +58,11 @@ class CustomLoginController extends Controller
                 $insert['password'] = Hash::make($request->password);
             
             $up2 = User::create($insert);
-             }
-        //      if( Auth::guard('student')->attempt(['matric'=>$request->username,'password'=>$request->password], $request->remember)){
-        //     // return "Spot 1";
-        //     return redirect()->intended(route('student.home'));
-        // }else{
-        //     return redirect()->route('login')->with('s','Account created successfully.');   
-        // }
+            }
             return redirect()->route('login')->with('s','Account created successfully.');   
             //return redirect()->route('student.home')->with('s','Account created successfully.');   
             
-          }
+        }
           
     }
 
@@ -122,66 +116,72 @@ class CustomLoginController extends Controller
                 
                 $student_info = $student->get('student');
                 $class_info = $student->get('student_class');
-                    $program = $student->get('program');
-                    $level = $student->get('level');
-                    $campus = $student->get('campus');
-                    if($student_info == null){
-                        session()->flash('error', $student->get('message', "No student was found with given matricule"));
-                        return back();
+                $program = $student->get('program');
+                $level = $student->get('level');
+                $campus = $student->get('campus');
+                $reg_payment_status = $student->get('reg_payment_status');
+                if($student_info == null){
+                    session()->flash('error', $student->get('message', "No student was found with given matricule"));
+                    return back();
+                }
+                if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
+                    $data = [
+                        'name' => $student_info['name'], 
+                        'matricule' => $request->username,
+                        'dob' => $student_info['dob'],
+                        'pob' => $student_info['pob'],
+                        'sex' => $student_info['gender'],
+                        'nationality' => $student_info['nationality'],
+                        'program' => $program == null ? '' : $program['name'],
+                        'reg_payment_status' => $reg_payment_status,
+                        'admission_batch_id' => ($sbid = $student_info['admission_batch_id']??null) == null ? $instance->admission_batch_id == null : $sbid,
+                        'level' => $level == null ? '' : $level['level'],
+                        'photo' => null,
+                        'campus' => $campus == null ? '' : $campus['name'],
+                        'status' => '0',
+                        'date' => now()->format('Y-m-d'),
+                        'updated_at' => NULL,
+                        'created_at'=>null,
+                        'img_path' => null,
+                        'link' => null,
+                        'user_id' => NULL,
+                        'valid' => '2025'
+                    ];
+                    if($level != null and ($clevel = $level['level']) != null){
+                        $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
+                        $program_levels = Http::get($program_levels_url)->collect()->get('data');
+                        $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
+                        $cur_yr = Helpers::instance()->getCurrentAccademicYear();
+                        $val_yr = $cur_yr + $levels_difference;
+                        $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                        $data['valid'] = $val_yr_name;
                     }
-                    if(($instance = Students::where(['matricule' => $request->username])->orderBy('id', 'DESC')->first()) == null){
-                        $data = [
-                            'name' => $student_info['name'], 
-                            'matricule' => $request->username,
-                            'dob' => $student_info['dob'],
-                            'pob' => $student_info['pob'],
-                            'sex' => $student_info['gender'],
-                            'nationality' => $student_info['nationality'],
-                            'program' => $program == null ? '' : $program['name'],
-                            'level' => $level == null ? '' : $level['level'],
-                            'photo' => null,
-                            'campus' => $campus == null ? '' : $campus['name'],
-                            'status' => '0',
-                            'date' => now()->format('Y-m-d'),
-                            'updated_at' => NULL,
-                            'created_at'=>null,
-                            'img_path' => null,
-                            'link' => null,
-                            'user_id' => NULL,
-                            'valid' => '2025'
-                        ];
-                        if($level != null and ($clevel = $level['level']) != null){
-                            $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
-                            $program_levels = Http::get($program_levels_url)->collect()->get('data');
-                            $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
-                            $cur_yr = Helpers::instance()->getCurrentAccademicYear();
-                            $val_yr = $cur_yr + $levels_difference;
-                            $val_yr_name = substr(Batch::find($val_yr)->name, -4);
-                            $data['valid'] = $val_yr_name;
-                        }
-                        $instance = Students::create($data);
-                    }else{
-                        $update = [
-                            'name' => $student_info['name'], 
-                            'matricule' => $request->username,
-                            // 'dob' => $instance->dob == null ? $student_info['dob'] : $instance->dob,
-                            'pob' => $instance->pob == null ? $student_info['pob'] : $instance->pob,
-                            'sex' => $instance->sex == null ? $student_info['gender'] : $instance->sex,
-                            'program' => $program == null ? '' : $program['name'],
-                            'level' => $level == null ? '' : $level['level'],
-                            'campus' => $campus == null ? '' : $campus['name'],
-                        ];
-                        if($level != null and ($clevel = $level['level']) != null){
-                            $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
-                            $program_levels = Http::get($program_levels_url)->collect()->get('data');
-                            $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
-                            $cur_yr = Helpers::instance()->getCurrentAccademicYear();
-                            $val_yr = $cur_yr + $levels_difference;
-                            $val_yr_name = substr(Batch::find($val_yr)->name, -4);
-                            $update['valid'] = $val_yr_name;
-                        }
-                        $instance->update($update);
+                    $instance = Students::create($data);
+                }else{
+                    $update = [
+                        'name' => $student_info['name'], 
+                        'matricule' => $request->username,
+                        // 'dob' => $instance->dob == null ? $student_info['dob'] : $instance->dob,
+                        'pob' => $instance->pob == null ? $student_info['pob'] : $instance->pob,
+                        'sex' => $instance->sex == null ? $student_info['gender'] : $instance->sex,
+                        'program' => $program == null ? '' : $program['name'],
+                        'level' => $level == null ? '' : $level['level'],
+                        'campus' => $campus == null ? '' : $campus['name'],
+                        'reg_payment_status' => $reg_payment_status,
+                        'admission_batch_id' => ($sbid = $student_info['admission_batch_id']??null) == null ? $instance->admission_batch_id == null : $sbid,
+                    ];
+                    if($level != null and ($clevel = $level['level']) != null){
+                        $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
+                        $program_levels = Http::get($program_levels_url)->collect()->get('data');
+                        $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
+                        $cur_yr = Helpers::instance()->getCurrentAccademicYear();
+                        $val_yr = $cur_yr + $levels_difference;
+                        $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                        $update['valid'] = $val_yr_name;
                     }
+                    // dd($update);
+                    $instance->update($update);
+                }
                 auth('student')->login($instance);
                 // return "Spot 2";
                 return redirect()->to(route('student.home'));

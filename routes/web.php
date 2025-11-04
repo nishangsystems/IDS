@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\StatsController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Student;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -64,12 +65,18 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
 
 Route::prefix('student')->name('student.')->middleware('isStudent')->group(function () {
-    Route::get('', 'Student\HomeController@index')->name('home');
-    Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
-    Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
-    Route::post('update', 'Student\HomeController@update')->name('update');
-    Route::get('drop_image', 'Student\HomeController@drop_image')->name('drop_image');
-    Route::post('add_image', 'Student\HomeController@update_image_save');
+    Route::middleware('pre_check_student')->group(function(){
+        Route::get('', 'Student\HomeController@index')->name('home');
+        Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
+        Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
+        Route::post('update', 'Student\HomeController@update')->name('update');
+        Route::get('drop_image', 'Student\HomeController@drop_image')->name('drop_image');
+        Route::post('add_image', 'Student\HomeController@update_image_save');
+    });
+    Route::get('make_payment', [Student\PaymentController::class, 'make_payment'])->name('make_payment');
+    Route::post('make_payment', [Student\PaymentController::class, 'save_payment']);
+    Route::get('payment/complete/{transaction_id}', [Student\PaymentController::class, 'complete_charges_transaction'])->name('payment.complete');
+    Route::get('payment/failed/{transaction_id}', [Student\PaymentController::class, 'failed_charges_transaction'])->name('payment.failed');
     Route::get('reset_password', 'Controller@reset_password')->name('reset_password');
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 });
