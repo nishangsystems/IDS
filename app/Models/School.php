@@ -11,6 +11,6 @@ class School extends Model
 
     protected $table = 'schools';
 
-    protected $fillable = ['name', 'contact', 'address', 'logo_path'];
+    protected $fillable = ['name', 'contact', 'address', 'logo_path', 'card_price'];
 
 }

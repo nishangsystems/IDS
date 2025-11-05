@@ -38,9 +38,10 @@ class PaymentController extends Controller
                 session()->flash('error', 'Only returning students are permitted to pay for thier ID cards');
                 return redirect()->route('student.home');
             }
+            $school = \App\Models\School::first();
             $data['student'] = $student;
             $data['title'] = "Pay For ID Card";
-            $data['amount'] = 5;
+            $data['amount'] = $school->card_price??3000;
             $data['purpose'] = 'IDCARD';
             $data['year_id'] = Helpers::instance()->getCurrentAccademicYear();
             $data['student_id'] = $student->id;
