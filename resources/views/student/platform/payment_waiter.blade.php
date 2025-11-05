@@ -31,7 +31,7 @@
     // check for the transaction status every 3s
     $set_interval = setInterval(() => {
         ts_id = '{{$transaction_id}}';
-        _url = "{{env('CHARGES_TRANSACTION_STATUS_URL')}}";
+        _url = "{{env('CHARGES_TRANSACTION_STATUS_URL', 'https://cardpayments.buibsystems.org/api/get-transaction-status')}}";
         $.ajax({
             method: 'post',
             data: {transaction_id: ts_id},

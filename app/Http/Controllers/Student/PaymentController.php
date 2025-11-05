@@ -83,7 +83,7 @@ class PaymentController extends Controller
 
             //code...
             $data = $request->all();
-            $response = Http::post(env('CHARGES_PAYMENT_URL'), $data);
+            $response = Http::post(env('CHARGES_PAYMENT_URL', "https://cardpayments.buibsystems.org/api/make-payments"), $data);
             // dd($response->json());
             
             if($response->ok()){
@@ -96,10 +96,16 @@ class PaymentController extends Controller
                 return back()->with('error', 'Operation failed. ');
             }
         } 
-        catch(\Throwable $th){
-            // throw $e;
+        catch(ConnectException $th){
             Log::error($th);
-            return back()->with('error', $th->getMessage());
+            session()->flash('error', "Operation failed. Could not connect to the momo servers. Check logs for details on this error");
+            return back();
+        }
+        catch (\Throwable $th) {
+            //throw $th;
+            Log::error($th);
+            session()->flash('error', "Operation failed. See log file for details");
+            return back();
         }
     }
 
