@@ -159,7 +159,6 @@ $user = $user == null ? auth()->user() : $user;
                         </div>
                     </div> 
                     <div class="col-12 my-3 bg-light text-capitalize container-fluid row border rounded shadow-sm">
-                        
                         <div class="col-sm-5 col-md-4 col-lg-3">
                             <div class="h4 text-center text-primary text-uppercase">sample photo</div>
                             <img src="{{ asset('icons/sample-half-photo.png') }}" alt="sample allowed photo" class="img img-fluid rounded" style="height: 12rem;">
@@ -190,7 +189,7 @@ $user = $user == null ? auth()->user() : $user;
                             </div>
                         @endif
                     </div> 
-                    <dov class="col-12 px-1 d-flex justify-content-end py-2 border-top">
+                    <div class="col-12 px-1 d-flex justify-content-end py-2 border-top">
                         @if($user->downloaded_at == null and $user->printed_at == null)
                             @if($user->photo != null)
                                 @if($user->status == 0)

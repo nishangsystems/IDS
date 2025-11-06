@@ -4,11 +4,11 @@
     $c_year = \App\Helpers\Helpers::instance()->getCurrentAccademicYear();
 @endphp
 <div class="py-3">
-        {{-- <div class="alert alert-info">
+        <div class="alert alert-info">
             Dear Students, <br>
-            Platform charges are paid per academic year to enable NISHANG SYSTEMS PLC process and deliver your information to you stress free from Home. These charges will help the company process all first, second and resit semester results, Fees payments history, other payments made order than school fees, online resit registration , announcements from the Institution per academic Year and present them to you on the web portal and on the App (Android & IOS ) <br>
-            Note: Platform charges are paid once per academic year .So if you  pay and the system keeps requesting payments, please contact the IT office
-        </div> --}}
+            Please be informed that ID card production is completely FREE for all new students. However, returning students are required to make payment before their ID cards can be reprinted, in accordance with the school’s policies.<br><br>
+            Thank you for your understanding and cooperation.
+        </div>
         @if ($year_id == null)
             <form method="get">
                 <input type="hidden" name="student_id" value="{{$student_id}}">
