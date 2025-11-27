@@ -31,7 +31,7 @@ $user = $user == null ? auth()->user() : $user;
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 text-center text-uppercase text-danger border-b"><u class="h4"><b>Photos Not Allowed</b></u></div>
-                            <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
+                            <div class="col-6 col-md-4 col-lg-2 col-xl-2" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-1.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
@@ -39,7 +39,7 @@ $user = $user == null ? auth()->user() : $user;
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
+                            <div class="col-6 col-md-4 col-lg-2 col-xl-2" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-2.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
@@ -47,7 +47,7 @@ $user = $user == null ? auth()->user() : $user;
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
+                            <div class="col-6 col-md-4 col-lg-2 col-xl-2" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-5.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
@@ -55,11 +55,19 @@ $user = $user == null ? auth()->user() : $user;
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
+                            <div class="col-6 col-md-4 col-lg-2 col-xl-2" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-4.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
                                         <p class="text text-warning"><i class="text-danger fa fa-times"></i>Photo/Image not upright.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2 col-xl-2" style="padding: 0.4rem; margin-block: 4px;">
+                                <div class="card rounded border-0 shadow-sm" style="height: inherit;">
+                                    <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                    <div class="card-body px-1 py-1">
+                                        <p class="text text-warning"><i class="text-danger fa fa-times"></i>Photo/Image with eye glasses.</p>
                                     </div>
                                 </div>
                             </div>
