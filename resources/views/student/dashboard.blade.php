@@ -49,7 +49,7 @@ $user = $user == null ? auth()->user() : $user;
                             </div>
                             <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
-                                    <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                    <img src="{{ asset('icons/sample-bad-photo-5.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
                                         <p class="text text-warning"><i class="text-danger fa fa-times"></i>Mixed color background not allowed</p>
                                     </div>
@@ -57,7 +57,7 @@ $user = $user == null ? auth()->user() : $user;
                             </div>
                             <div class="col-6 col-md-4 col-lg-3 col-xl-3" style="padding: 0.4rem; margin-block: 4px;">
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
-                                    <img src="{{ asset('icons/sample-bad-photo-4.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
+                                    <img src="{{ asset('icons/sample-bad-photo-4.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
                                         <p class="text text-warning"><i class="text-danger fa fa-times"></i>Photo/Image not upright.</p>
                                     </div>
