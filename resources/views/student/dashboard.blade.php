@@ -35,7 +35,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-1.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
-                                        <p class="text text-warning"> <i class="text-danger fa fa-times"></i> Full photo not allowed</p>
+                                        <p class="text text-warning"> <i class="text-danger fa fa-times" style="font-size: larger;"></i> Full photo not allowed</p>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-2.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
-                                        <p class="text text-warning"><i class="text-danger fa fa-times"></i>Half photo not from chest level upwords</p>
+                                        <p class="text text-warning"><i class="text-danger fa fa-times" style="font-size: larger;"></i>Half photo not from chest level upwords</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-5.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
-                                        <p class="text text-warning"><i class="text-danger fa fa-times"></i>Mixed color background not allowed</p>
+                                        <p class="text text-warning"><i class="text-danger fa fa-times" style="font-size: larger;"></i>Mixed color background not allowed</p>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-4.jpg') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
-                                        <p class="text text-warning"><i class="text-danger fa fa-times"></i>Photo/Image not upright.</p>
+                                        <p class="text text-warning"><i class="text-danger fa fa-times" style="font-size: larger;"></i>Photo/Image not upright.</p>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <div class="card rounded border-0 shadow-sm" style="height: inherit;">
                                     <img src="{{ asset('icons/sample-bad-photo-3.png') }}" alt="Sample Bad Image 1" class="card-img-top img-fluid img">
                                     <div class="card-body px-1 py-1">
-                                        <p class="text text-warning"><i class="text-danger fa fa-times"></i>Photo/Image with eye glasses.</p>
+                                        <p class="text text-warning"><i class="text-danger fa fa-times" style="font-size: larger;"></i>Photo/Image with eye glasses.</p>
                                     </div>
                                 </div>
                             </div>
