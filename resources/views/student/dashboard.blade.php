@@ -207,7 +207,7 @@ $user = $user == null ? auth()->user() : $user;
                                 <input class="btn btn-md btn-primary rounded" value="UPDATE" type="submit">
                             @endif
                         @endif
-                    </dov>
+                    </div>
                 </div>
             </form>
         </div>
