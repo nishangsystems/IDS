@@ -19,6 +19,7 @@ use App\Models\Semester;
 use App\Models\Students;
 use App\Models\StudentSubject;
 use App\Models\Subjects;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wage;
 use Carbon\Carbon;
@@ -290,5 +291,45 @@ class HomeController  extends Controller
             session()->flash('error', "Error encountered. F:: {$th->getFile()}, L:: {$th->getLine()}, M:: {$th->getMessage()}");
             return back();
         }
+    }
+
+    public function bypass_card_payment(Request $request, $id = null){
+        $data['title'] = "Bypass ID card Payment";
+        if($id != null){
+            $data['student'] = Students::find($id);
+        }
+        return view('admin.payments.bypass', $data);
+    }
+
+    public function bypass_card_payment_save(Request $request, $id){
+        $student = Students::find($id);
+        $fake_transaction = Transaction::create(['student_id' => $id, 'amount' => 3000, 'year_id' => Helpers::instance()->getCurrentAccademicYear(), 'tel' => $student->phone, 'status' => 'completed','payment_purpose' => 'ID card','payment_method' => 'bypassed_transaction','reference' => 'bypass124134', 'transaction_id' => 66532, 'payment_id' => -21424, 'financialTransactionId' => 12343, 'used' => 1, 'is_charges' => 0]);
+        $update = ['card_payment_year_id' => \App\Helpers\Helpers::instance()->getCurrentAccademicYear(), 'card_transaction_id' => $fake_transaction->id];
+        if($request->bypass_reason != null){
+            $update['bypass_reason'] = $request->bypass_reason;
+        }
+        $student->update($update);
+
+        session()->flash('success', "Card payment bypassed successfully");
+        return back();
+    }
+
+    public function printed_returning_ids(Request $request){
+        $data['title'] = "Returning Student Printed IDs";
+        $data['students'] = Students::where('admission_batch_id', '!=', Helpers::instance()->getCurrentAccademicYear())
+            ->whereNotNull('printed_at')->orderBy('name')->get();
+
+        return view('admin.payments.returning_prints', $data);
+    }
+
+
+    public function returning_id_payments(Request $request){
+        $data['title'] = "Returning Student ID Payments";
+        $data['students'] = Students::where('admission_batch_id', '!=', Helpers::instance()->getCurrentAccademicYear())
+            ->orderBy('name')->get()->each(function($rec){
+                $rec->payment_status = $rec->card_payment_year_id == Helpers::instance()->getCurrentAccademicYear() ? 'PAID' : 'PENDING';
+            });
+
+        return view('admin.payments.students_to_pay', $data);
     }
 }

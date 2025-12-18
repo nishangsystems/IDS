@@ -39,6 +39,12 @@ Route::post('reset_password_with_token/password/reset', [CustomForgotPasswordCon
 Route::get('reset_password_with_token/{token}/{email}', [CustomForgotPasswordController::class, 'resetForm'])->name('reset');
 
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function () {
+
+    Route::get('card_prints/returning', [HomeController::class, 'printed_returning_ids'])->name('returning_cards.prints');
+    Route::get('card_payment/expected', [HomeController::class, 'returning_id_payments'])->name('returning_cards.payments');
+    Route::get('card_payment/bypass{id?}', [HomeController::class, 'bypass_card_payment'])->name('card_payment.bypass');
+    Route::post('card_payment/bypass{id?}', [HomeController::class, 'bypass_card_payment_save']);
+
     Route::get('', 'Admin\HomeController@index')->name('home');
     Route::get('home', 'Admin\HomeController@index')->name('home');
     Route::get('setayear', 'Admin\HomeController@setayear')->name('setayear');
@@ -61,6 +67,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 
     Route::get('reset_student_data{id}', [HomeController::class, 'reset_student_data'])->name('reset_student_data');
+
 });
 
 

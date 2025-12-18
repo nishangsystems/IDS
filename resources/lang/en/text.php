@@ -997,5 +997,9 @@ return [
     'students_without_cards'=>'students without cards',
     'print_all_program_stats'=>'print all program stats',
     'program_id_card_pending_data_upload_statistics'=>'program ID card pending data upload statistics',
+    'bypass_card_payment'=>'bypass card payment',
+    'bypass_reason' => 'bypass reason',
+    'returning_card_payments'=>'returning card payments',
+    'returning_card_prints'=>'returning card prints',
     ''
 ];

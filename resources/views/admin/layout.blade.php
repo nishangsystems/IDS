@@ -277,6 +277,22 @@
 
                         <b class="arrow"></b>
                     </li>
+                    <li>
+                        <a href="{{route('admin.returning_cards.prints')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.returning_card_prints')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.returning_cards.payments')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.returning_card_payments')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
                     
                 </ul>
             </li>
@@ -313,6 +329,13 @@
                 <a href="{{route('admin.printed_ids')}}" class="text-capitalize">
                     <i  style="color: {{$bg1}};" class="fa fa-print menu-icon   "></i>
                     {{__('text.word_printed')}}
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li>
+                <a href="{{url('admin/card_payment/bypass')}}" class="text-capitalize">
+                    <i  style="color: {{$bg1}};" class="fa fa-print menu-icon   "></i>
+                    {{__('text.bypass_card_payment')}}
                 </a>
                 <b class="arrow"></b>
             </li>
