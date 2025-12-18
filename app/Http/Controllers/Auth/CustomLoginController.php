@@ -131,6 +131,7 @@ class CustomLoginController extends Controller
                         'dob' => $student_info['dob'],
                         'pob' => $student_info['pob'],
                         'sex' => $student_info['gender'],
+                        'phone' => $student_info['phone'],
                         'nationality' => $student_info['nationality'],
                         'program' => $program == null ? '' : $program['name'],
                         'reg_payment_status' => $reg_payment_status,
@@ -168,6 +169,7 @@ class CustomLoginController extends Controller
                         'level' => $level == null ? '' : $level['level'],
                         'campus' => $campus == null ? '' : $campus['name'],
                         'reg_payment_status' => $reg_payment_status,
+                        'phone' => $instance->phone == null ? $student_info['phone'] : $instance->phone,
                         'admission_batch_id' => ($sbid = $student_info['admission_batch_id']??null) == null ? $instance->admission_batch_id == null : $sbid,
                     ];
                     if($level != null and ($clevel = $level['level']) != null){
