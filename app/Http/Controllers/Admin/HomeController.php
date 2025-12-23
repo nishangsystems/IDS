@@ -246,10 +246,7 @@ class HomeController  extends Controller
             $image_path = $student->img_path.'/'.$student->photo;
             if(file_exists($image_path)){unlink($image_path);}
         }
-        $student->updated_at = null;
-        $student->downloaded_at = null;
-        $student->printed_at = null;
-        $student->save();
+        $student->delete();
         return back()->with('success', "Operation complete");
     }
 
