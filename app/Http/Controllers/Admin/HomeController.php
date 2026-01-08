@@ -303,7 +303,7 @@ class HomeController  extends Controller
 
     public function bypass_card_payment_save(Request $request, $id){
         $student = Students::find($id);
-        $fake_transaction = Transaction::create(['student_id' => $id, 'amount' => 3000, 'year_id' => Helpers::instance()->getCurrentAccademicYear(), 'tel' => $student->phone, 'status' => 'completed','payment_purpose' => 'ID card','payment_method' => 'bypassed_transaction','reference' => 'bypass124134', 'transaction_id' => 66532, 'payment_id' => -21424, 'financialTransactionId' => 12343, 'used' => 1, 'is_charges' => 0]);
+        $fake_transaction = Transaction::create(['student_id' => $id, 'amount' => 3000, 'year_id' => Helpers::instance()->getCurrentAccademicYear(), 'tel' => $student->phone, 'status' => 'completed','payment_purpose' => 'ID card','payment_method' => 'bypassed_transaction','reference' => 'bypass124134', 'transaction_id' => 66532, 'payment_id' => -21424, 'financialTransactionId' => 12343, 'is_charges' => 0]);
         $update = ['card_payment_year_id' => \App\Helpers\Helpers::instance()->getCurrentAccademicYear(), 'card_transaction_id' => $fake_transaction->id];
         if($request->bypass_reason != null){
             $update['bypass_reason'] = $request->bypass_reason;
