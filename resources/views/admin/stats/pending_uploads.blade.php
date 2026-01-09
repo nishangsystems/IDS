@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('section')
-    <div class="container-fluid d-flex justify-content-end py-2 mb-4">
+    <div class="container-fluid d-flex justify-content-around py-2 mb-4">
+        <span class="text-capitalize text-danger" style="font-size: larger;"><b>Program change cases: {{ $conflicts??0 }}</b></span>
         <button class="btn btn-primary btn-sm rounded text-capitalize" onclick="printData('#program_stats_printable')">@lang('text.print_all_program_stats')</button>
     </div>
     <div class="d-none">
