@@ -37,10 +37,20 @@ class StatsController extends Controller
     public function pending_upload(Request $request){
         $school_system_domain = School::first()->system_domain_url;
         $endpoint = "{$school_system_domain}/api/admitted_students";
-        $response = Http::get($endpoint)->collect('data');
+        $response = Http::get($endpoint)->collect('data')->unique('matric');
 
-        // dd($response);
-        $uploaded = Students::whereNotNull('photo')->pluck('matricule')->toArray();
+
+        $students = Students::whereNotNull('photo')->groupBy('matricule')->distinct()->get();
+        $uploaded = Students::whereNotNull('photo')->groupBy('matricule')->distinct()->pluck('matricule')->toArray();
+        // dd($response->where('program_id', 11));
+        dd([
+            'uploaded'=>$students->where('program', 'Direct B.Sc Nursing')->count(),
+            'students'=>$response->where('program', 'Direct B.Sc Nursing')->count(),
+            'missing'=>$response->where('program', 'Direct B.Sc Nursing')->count() - $students->where('program', 'Direct B.Sc Nursing')->count(),
+            'missing_students'=>$response->where('program', 'Direct B.Sc Nursing')->whereNotIn('matric', $uploaded)->values()->unique('matric')->values(),
+            'strange_students'=>$students->where('program', 'Direct B.Sc Nursing')->whereNotIn('matricule', $response->pluck('matric')->toArray())->values(),
+        ]);
+
         $pending = $response->reject(function($record)use($uploaded){
             return in_array($record['matric'], $uploaded);
         })->sortBy('program');
