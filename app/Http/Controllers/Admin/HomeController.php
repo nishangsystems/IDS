@@ -240,7 +240,7 @@ class HomeController  extends Controller
         }
     }
 
-    public function reset_student_data(Request $request, $record_id) {
+    public function reprint_student_data(Request $request, $record_id) {
         $student = Students::find($record_id);
         // if($student->img_path != null and $student->photo != null){
         //     $image_path = $student->img_path.'/'.$student->photo;
@@ -251,6 +251,23 @@ class HomeController  extends Controller
         if($student != null){
             $student->update(['downloaded_at'=>null, 'printed_at'=>null]);
         }
+        return back()->with('success', "Operation complete");
+    }
+
+    
+    public function reset_student_data(Request $request, $record_id) {
+        $student = Students::find($record_id);
+        if($student->img_path != null and $student->photo != null){
+            $image_path = $student->img_path.'/'.$student->photo;
+            if(file_exists($image_path)){unlink($image_path);}
+        }
+        $student->updated_at = null;
+        $student->downloaded_at = null;
+        $student->printed_at = null;
+        $student->photo = null;
+        $student->img_path = null;
+        $student->link = null;
+        $student->save();
         return back()->with('success', "Operation complete");
     }
 
