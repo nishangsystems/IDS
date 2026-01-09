@@ -1001,5 +1001,6 @@ return [
     'bypass_reason' => 'bypass reason',
     'returning_card_payments'=>'returning card payments',
     'returning_card_prints'=>'returning card prints',
+    'word_reprint'=>'reprint',
     ''
 ];

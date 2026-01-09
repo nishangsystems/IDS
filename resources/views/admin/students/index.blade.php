@@ -64,7 +64,7 @@
                             <a class="btn btn-sm btn-primary m-1" href="{{route('admin.reprint_student_data', '__STID__')}}"><i class="fa fa-info-circle text-capitalize"> {{__('text.word_reprint')}}</i></a> 
                         </td>
                     </tr>
-                    `.replace('__STID__', element.id);
+                    `.replaceAll('__STID__', element.id);
                 }); 
                 $('#table_body').html(html);
             },
