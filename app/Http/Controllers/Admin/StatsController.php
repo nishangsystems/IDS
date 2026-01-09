@@ -41,8 +41,8 @@ class StatsController extends Controller
 
         // dd($response);
         $uploaded = Students::whereNotNull('photo')->pluck('matricule')->toArray();
-        $pending = $response->filter(function($record)use($uploaded){
-            return !in_array($record['matric'], $uploaded);
+        $pending = $response->reject(function($record)use($uploaded){
+            return in_array($record['matric'], $uploaded);
         })->sortBy('program');
         $data['title'] = "Data Upload Statistics";
         $data['students'] = $pending;
