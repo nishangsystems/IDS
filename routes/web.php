@@ -67,6 +67,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::post('reset_password', 'Controller@reset_password_save')->name('reset_password');
 
     Route::get('reset_student_data{id}', [HomeController::class, 'reset_student_data'])->name('reset_student_data');
+    Route::get('reprint_student_data{id}', [HomeController::class, 'reprint_student_data'])->name('reprint_student_data');
 
 });
 
