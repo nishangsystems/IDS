@@ -30,7 +30,7 @@ class StatsController extends Controller
             }
             return $rec;
         })->filter(function($rec){return $rec != null;});
-        
+        dd($data['stats']);
         return view('admin.stats.index', $data);
     }
 
