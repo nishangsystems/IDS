@@ -282,8 +282,8 @@ class HomeController  extends Controller
             $end_date = now()->parse($request->end_date)->hour(23)->minute(59)->second(59);
             $data = Students::whereDate('printed_at', '>=', $request->start_date)->whereDate('printed_at', '<=', $request->end_date)->orderBy('name')->get();
             
-            $fname = "printed_students{time()}.csv";
-            $file_url = storage_path('app/public/'.$fname);
+            $fname = "printed_students_".time().".csv";
+            $file_url = public_path('uploads/'.$fname);
             // if(!file_exists($file_url)){Storage::disk('public')->put($fname, ' ');}
             $file_stream = fopen($file_url, 'w');
             fputcsv($file_stream, ['MATRICIULE', 'NAME']);
