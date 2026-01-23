@@ -1002,5 +1002,6 @@ return [
     'returning_card_payments'=>'returning card payments',
     'returning_card_prints'=>'returning card prints',
     'word_reprint'=>'reprint',
+    'upload_difference'=>'upload difference',
     ''
 ];
