@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\School;
 use App\Models\Students;
 use Illuminate\Http\Request;
@@ -13,24 +15,35 @@ class StatsController extends Controller
 {
     //
 
+    
     public function index(Request $request) {
         $school_system_domain = School::first()->system_domain_url;
         $endpoint = "{$school_system_domain}/api/program_admission_data";
         $response = Http::get($endpoint)->collect('data');
         // dd($response);
+
+        $year_name = Batch::find(Helpers::instance()->getCurrentAccademicYear())->name;
+        $start = explode('/', $year_name)[0];
+        $end = explode('/', $year_name)[1];
+        // school year from october to july
+        $school_year_start = "{$start}-10-01 00:00:00";
+        $school_year_end = "{$end}-07-31 23:59:59";
+        $printed = Students::whereNotNull('printed_at')->whereBetween('printed_at', [$school_year_start, $school_year_end])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->get();
+
         $data['title'] = "Per Campus Per Program Statistics";
-        $data['stats'] = $response->map(function($rec){
+        $data['stats'] = $response->map(function($rec) use($printed){
             if($rec == null){return;}
             $rec['program'] = $rec['name'];
             $rec['size'] = 0;
             // dd($rec);
-            $row = Students::whereNotNull('printed_at')->where(['program'=>$rec['name'], 'campus'=>$rec['campus']])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->first();
+
+            $row = $printed->where('campus', $rec['campus'])->where('program', $rec['name'])->first();
             if($row != null){
                 $rec['size'] = $row->size;
             }
             return $rec;
         })->filter(function($rec){return $rec != null;});
-        
+        // dd($data['stats']);
         return view('admin.stats.index', $data);
     }
 
