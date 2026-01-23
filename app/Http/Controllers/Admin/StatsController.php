@@ -18,19 +18,23 @@ class StatsController extends Controller
         $endpoint = "{$school_system_domain}/api/program_admission_data";
         $response = Http::get($endpoint)->collect('data');
         // dd($response);
+
+        $printed = Students::whereNotNull('printed_at')->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->get();
+
         $data['title'] = "Per Campus Per Program Statistics";
-        $data['stats'] = $response->map(function($rec){
+        $data['stats'] = $response->map(function($rec) use($printed){
             if($rec == null){return;}
             $rec['program'] = $rec['name'];
             $rec['size'] = 0;
             // dd($rec);
-            $row = Students::whereNotNull('printed_at')->where(['program'=>$rec['name'], 'campus'=>$rec['campus']])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->first();
+
+            $row = $printed->where('campus', $rec['campus'])->where('program', $rec['name'])->first();
             if($row != null){
                 $rec['size'] = $row->size;
             }
             return $rec;
         })->filter(function($rec){return $rec != null;});
-        dd($data['stats']);
+        // dd($data['stats']);
         return view('admin.stats.index', $data);
     }
 
