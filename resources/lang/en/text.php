@@ -997,5 +997,6 @@ return [
     'students_without_cards'=>'students without cards',
     'print_all_program_stats'=>'print all program stats',
     'program_id_card_pending_data_upload_statistics'=>'program ID card pending data upload statistics',
+    'word_reprint'=>'reprint',
     ''
 ];
