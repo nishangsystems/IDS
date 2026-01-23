@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\School;
 use App\Models\Students;
 use Illuminate\Http\Request;
@@ -19,7 +21,13 @@ class StatsController extends Controller
         $response = Http::get($endpoint)->collect('data');
         // dd($response);
 
-        $printed = Students::whereNotNull('printed_at')->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->get();
+        $year_name = Batch::find(Helpers::instance()->getCurrentAccademicYear())->name;
+        $start = explode('/', $year_name)[0];
+        $end = explode('/', $year_name)[1];
+        // school year from october to july
+        $school_year_start = "{$start}-10-01 00:00:00";
+        $school_year_end = "{$end}-07-31 23:59:59";
+        $printed = Students::whereNotNull('printed_at')->whereBetween('printed_at', [$school_year_start, $school_year_end])->select(['id', 'campus', 'program', DB::raw("COUNT(*) as size")])->groupBy(['campus', 'program'])->get();
 
         $data['title'] = "Per Campus Per Program Statistics";
         $data['stats'] = $response->map(function($rec) use($printed){
