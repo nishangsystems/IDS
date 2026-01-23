@@ -31,11 +31,13 @@
         </div>
     </div>
     <div class="container-fluid">
-        <table class="table-stripped border">
+        <table class="table-stripped border table">
             <thead class="text-capitalize border-bottom">
                 <th>@lang('text.sn')</th>
                 <th class="border-left">@lang('text.word_program')</th>
+                <th class="border-left bg-success">@lang('text.word_expected')</th>
                 <th class="border-left">@lang('text.students_without_cards')</th>
+                <th class="border-left">@lang('text.upload_difference')</th>
                 <th class="border-left"></th>
             </thead>
             <tbody>
@@ -46,7 +48,9 @@
                     <tr class="border-bottom">
                         <td>{{$counter++}}</td>
                         <td class="border-left">{{$prog}}</td>
+                        <td class="border-left bg-success">{{$total->where('program', $prog)->count()}}</td>
                         <td class="border-left">{{$program_group->count()}}</td>
+                        <td class="border-left">{{ $total->where('program', $prog)->count() - $uploaded->where('program', $prog)->count() }}</td>
                         <td class="border-left">
                             <button class="btn btn-sm rounded btn-primary text-capitalize" onclick="printData('#group{{$counter}}')">@lang('text.word_print')</button>
                             <div class="d-none">
