@@ -43,7 +43,7 @@ class HomeController extends Controller
             'program' => 'required',
             'campus' => 'required',
             'level' => 'required',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
             'nationality' => 'required',
         ]);
         if ($validator->fails()) {
