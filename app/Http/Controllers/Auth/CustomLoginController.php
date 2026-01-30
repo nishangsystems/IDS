@@ -119,6 +119,7 @@ class CustomLoginController extends Controller
                 $program = $student->get('program');
                 $level = $student->get('level');
                 $campus = $student->get('campus');
+                $current_year = $student->get('current_year');
                 $reg_payment_status = $student->get('reg_payment_status');
                 if($student_info == null){
                     session()->flash('error', $student->get('message', "No student was found with given matricule"));
@@ -148,14 +149,25 @@ class CustomLoginController extends Controller
                         'user_id' => NULL,
                         'valid' => '2025'
                     ];
+                    
                     if($level != null and ($clevel = $level['level']) != null){
                         $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
                         $program_levels = Http::get($program_levels_url)->collect()->get('data');
                         $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
-                        $cur_yr = Helpers::instance()->getCurrentAccademicYear();
-                        $val_yr = $cur_yr + $levels_difference;
-                        $val_yr_name = substr(Batch::find($val_yr)->name, -4);
-                        $data['valid'] = $val_yr_name;
+                        $cur_yr_name = substr($current_year['name'], -4);
+
+                        if($cur_yr_name != null and intval($cur_yr_name) > 0){
+                            $data['valid'] = intval($cur_yr_name) + $levels_difference;
+                        }else{
+                            $cur_yr_name = Batch::whereName($current_year['name'])->first();
+                            if($cur_yr_name != null){
+                                $data['valid'] = intval(substr($cur_yr_name->name, -4)) + $levels_difference;
+                            }else{
+                                $val_yr = $current_year['id'] + $levels_difference;
+                                $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                                $data['valid'] = $val_yr_name;
+                            }
+                        }
                     }
                     $instance = Students::create($data);
                 }else{
@@ -176,10 +188,20 @@ class CustomLoginController extends Controller
                         $program_levels_url = $school_system_domain."/api/campus/program/levels/{$student_info['campus_id']}/{$program['id']}";
                         $program_levels = Http::get($program_levels_url)->collect()->get('data');
                         $levels_difference = (optional(collect($program_levels)->sortBy('level')->last())['id']) - $level['id'];
-                        $cur_yr = Helpers::instance()->getCurrentAccademicYear();
-                        $val_yr = $cur_yr + $levels_difference;
-                        $val_yr_name = substr(Batch::find($val_yr)->name, -4);
-                        $update['valid'] = $val_yr_name;
+                        $cur_yr_name = substr($current_year['name'], -4);
+
+                        if($cur_yr_name != null and intval($cur_yr_name) > 0){
+                            $update['valid'] = intval($cur_yr_name) + $levels_difference;
+                        }else{
+                            $cur_yr_name = Batch::whereName($current_year['name'])->first();
+                            if($cur_yr_name != null){
+                                $update['valid'] = intval(substr($cur_yr_name->name, -4)) + $levels_difference;
+                            }else{
+                                $val_yr = $current_year['id'] + $levels_difference;
+                                $val_yr_name = substr(Batch::find($val_yr)->name, -4);
+                                $update['valid'] = $val_yr_name;
+                            }
+                        }
                     }
                     // dd($update);
                     $instance->update($update);
