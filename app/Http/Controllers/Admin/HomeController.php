@@ -249,7 +249,7 @@ class HomeController  extends Controller
         // $student->delete();
 
         if($student != null){
-            $student->update(['downloaded_at'=>null, 'printed_at'=>null]);
+            $student->update(['downloaded_at'=>null, 'printed_at'=>null, 'updated_at'=>now()]);
         }
         return back()->with('success', "Operation complete");
     }
