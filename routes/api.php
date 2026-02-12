@@ -31,3 +31,6 @@ Route::get('upload_statistics', function(Request $request){
     return response()->json(['data' => $students]);
 });
 
+
+
+Route::get('data_upload_status', [\App\Http\Controllers\API\HomeController::class, 'data_upload_status']);
